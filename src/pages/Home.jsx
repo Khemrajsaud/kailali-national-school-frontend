@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "motion/react";
-import school from "../assets/images/school.png";
+import school from "../assets/images/kailali4.jpeg";
 import gallary1 from "../assets/images/kailali1.jpeg";
 import gallary2 from "../assets/images/kailali2.jpeg";
 import gallary3 from "../assets/images/kailali3.jpeg";
