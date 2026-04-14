@@ -597,7 +597,7 @@ const en = {
       callTitle: "Call Us",
       callPhone: "+977-91-540488",
       emailTitle: "Email Us",
-      emailAddress: "contact@pioneers.edu.np",
+      emailAddress: "contact@kailalinationalschool.edu.np",
     },
     map: {
       title: "Our Location",

@@ -117,7 +117,7 @@ const Contact = () => {
             </div>
             <h3 className="text-base sm:text-lg font-bold text-(--text) mb-2">{t.contact.info.emailTitle}</h3>
             <p className="text-xs sm:text-sm text-(--muted)">{t.contact.info.emailAddress}</p>
-            <p className="text-xs sm:text-sm text-(--muted)">admissions@pioneersacademy.edu.np</p>
+            <p className="text-xs sm:text-sm text-(--muted)">kailali@nationalschool.edu.np</p>
           </div>
 
         </section>

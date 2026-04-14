@@ -30,14 +30,10 @@ import {
 import { useLanguage } from "../contexts/LanguageContext";
 
 
-/**
- * API configuration for fetching the latest news
- */
+
 const API_URL = "http://localhost:5000/api/news";
 
-/**
- * Standard animation variant for entrance transitions
- */
+
 const fadeInUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -45,9 +41,7 @@ const fadeInUp = {
   transition: { duration: 0.6, ease: "easeOut" },
 };
 
-/**
- * Home component serving as the landing page of Pioneers Academy
- */
+
 const Home = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();

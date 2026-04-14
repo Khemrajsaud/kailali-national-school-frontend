@@ -633,7 +633,7 @@ const ne = {
       callTitle: 'हामीलाई कल गर्नुहोस्',
       callPhone: '+९७७-९१-५४०४८८',
       emailTitle: 'हामीलाई ईमेल गर्नुहोस्',
-      emailAddress: 'contact@pioneers.edu.np'
+      emailAddress: 'contact@kailalinationalschool.edu.np'
     },
     map: {
       title: 'हाम्रो स्थान',
