@@ -19,9 +19,9 @@ import {
 } from "lucide-react";
 import { useAdminTheme } from "../../contexts/AdminThemeContext";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { apiUrl } from "../../config/api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const API_URL = `${API_BASE}/api/notice`;
+const API_URL = apiUrl("/api/notice");
 
 
 const AdminNotices = () => {

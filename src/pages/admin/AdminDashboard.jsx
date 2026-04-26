@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import { useAdminTheme } from '../../contexts/AdminThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { apiUrl } from '../../config/api';
 
 /**
  * AdminDashboard Component
@@ -25,17 +26,15 @@ const AdminDashboard = () => {
 
   // --- EFFECTS ---
   useEffect(() => {
-    const base = import.meta.env.VITE_API_URL;
-
     /**
      * Fetches real-time counts for gallery, news, and notices from the backend.
      */
     const fetchAll = async () => {
       try {
         const [gRes, nRes, ntRes] = await Promise.allSettled([
-          axios.get(`${base}/api/gallery`),
-          axios.get(`${base}/api/news`),
-          axios.get(`${base}/api/notice`),
+          axios.get(apiUrl('/api/gallery')),
+          axios.get(apiUrl('/api/news')),
+          axios.get(apiUrl('/api/notice')),
         ]);
 
         setStats({
@@ -143,7 +142,7 @@ const StatCard = ({ label, value, icon, color, to, isDarkMode }) => {
   return (
     <Link
       to={to}
-      className={`flex items-center gap-4 p-5 rounded-2xl border transition-all hover:shadow-lg cursor-pointer transform hover:translate-y-[-2px] ${isDarkMode ? 'bg-[#0f1729] border-slate-800 hover:border-slate-700' : 'bg-white border-slate-200 hover:border-slate-300'
+      className={`flex items-center gap-4 p-5 rounded-2xl border transition-all hover:shadow-lg cursor-pointer transform hover:-translate-y-0.5 ${isDarkMode ? 'bg-[#0f1729] border-slate-800 hover:border-slate-700' : 'bg-white border-slate-200 hover:border-slate-300'
         }`}
     >
       <div className={`p-4 rounded-xl ${c.bg}`}>

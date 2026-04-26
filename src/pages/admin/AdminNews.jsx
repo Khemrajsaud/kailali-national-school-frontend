@@ -20,9 +20,9 @@ import {
 import { useAdminTheme } from "../../contexts/AdminThemeContext";
 import { useLanguage } from "../../contexts/LanguageContext";
 import RichTextEditor from "../../components/admin/RichTextEditor";
+import { apiUrl } from "../../config/api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const API_URL = `${API_BASE}/api/news`;
+const API_URL = apiUrl("/api/news");
 
 
 const Toast = ({ toasts }) => (

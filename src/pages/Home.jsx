@@ -28,10 +28,10 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { apiUrl } from "../config/api";
 
 
-
-const API_URL = "http://localhost:5000/api/news";
+const API_URL = apiUrl("/api/news");
 
 
 const fadeInUp = {
@@ -247,7 +247,7 @@ const Home = () => {
           {/* Right Side: Text Content */}
           <div className="flex-1">
             <h1 className="text-3xl md:text-4xl font-bold text-(--text) mb-2">
-              {t.principal.hero}    <span className="text-3xl md:text-4xl font-bold text-[var(--primary)]">{t.principal.subhero}</span>
+              {t.principal.hero}    <span className="text-3xl md:text-4xl font-bold text-(--primary)">{t.principal.subhero}</span>
 
             </h1>
 

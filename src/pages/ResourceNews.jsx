@@ -4,8 +4,9 @@ import { Newspaper, Loader2, CalendarDays, UserRound, AlertCircle, Eye, ArrowRig
 import { useLanguage } from "../contexts/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { apiUrl } from "../config/api";
 
-const API_URL = `${import.meta.env.VITE_API_URL}/api/news`;
+const API_URL = apiUrl("/api/news");
 
 /**
  * ResourceNews component for displaying a list of news articles and school updates

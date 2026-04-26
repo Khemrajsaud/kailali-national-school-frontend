@@ -16,9 +16,9 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { motion } from "framer-motion";
+import { apiUrl } from "../config/api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const API_URL = `${API_BASE}/api/news`;
+const API_URL = apiUrl("/api/news");
 
 /**
  * DetailedNews component for rendering a single, comprehensive news article
@@ -202,7 +202,7 @@ const DetailedNews = () => {
                 </div>
               </div>
 
-              <div className="hidden sm:block h-10 w-[1px] bg-(--border)"></div>
+              <div className="hidden sm:block h-10 w-px bg-(--border)"></div>
 
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 rounded-full bg-(--bg-alt) flex items-center justify-center shrink-0">
@@ -222,7 +222,7 @@ const DetailedNews = () => {
               <img
                 src={news.image_url}
                 alt={news.title}
-                className="w-full h-auto max-h-[600px] object-cover"
+                className="w-full h-auto max-h-150 object-cover"
                 loading="lazy"
               />
             </div>
