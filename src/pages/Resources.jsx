@@ -8,6 +8,7 @@ import {
   School,
   Users,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import homepage from "../assets/images/homepage.png";
 import { useLanguage } from "../contexts/LanguageContext";
 
@@ -19,10 +20,10 @@ const Resources = () => {
 
   // Mapping static icons to data from translation context
   const quickLinks = [
-    { title: t.resources.quickLinks.gallery, icon: <Image size={20} /> },
-    { title: t.resources.quickLinks.newsNotices, icon: <Megaphone size={20} /> },
-    { title: t.resources.quickLinks.routine, icon: <ClipboardList size={20} /> },
-    { title: t.resources.quickLinks.downloads, icon: <Download size={20} /> },
+    { title: t.resources.quickLinks.gallery, icon: <Image size={20} />, to: "/resources/gallery" },
+    { title: t.resources.quickLinks.newsNotices, icon: <Megaphone size={20} />, to: "/resources/news" },
+    { title: t.resources.quickLinks.routine, icon: <ClipboardList size={20} />, to: "/resources/notices" },
+    { title: t.resources.quickLinks.downloads, icon: <Download size={20} />, to: "/resources/notices" },
   ];
 
   return (
@@ -53,8 +54,9 @@ const Resources = () => {
         <section>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
             {quickLinks.map((item, idx) => (
-              <div
+              <Link
                 key={idx}
+                to={item.to}
                 className="group rounded-2xl border border-(--border) bg-(--card) p-5 flex flex-col sm:flex-row items-center gap-4 hover:border-(--primary)/50 transition-all shadow-sm hover:shadow-md cursor-pointer"
               >
                 <div className="w-12 h-12 rounded-xl bg-(--primary)/10 flex items-center justify-center text-(--primary) group-hover:bg-(--primary) group-hover:text-white transition-colors duration-300">
@@ -63,7 +65,7 @@ const Resources = () => {
                 <span className="text-sm font-bold text-(--text) text-center sm:text-left leading-tight">
                   {item.title}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
         </section>

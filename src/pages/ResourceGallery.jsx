@@ -32,13 +32,12 @@ function ResourceGallery() {
     try {
       setLoading(true);
       setError(null);
-      console.log("Fetching from:", API_URL);
 
       const res = await axios.get(API_URL);
-      setGallery(res.data);
+      setGallery(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       console.error("Error fetching gallery:", error);
-      setError(t.gallery.errorTitle);
+      setError(error?.response?.data?.message || t.gallery.errorTitle);
     } finally {
       setLoading(false);
     }

@@ -93,9 +93,7 @@ function AdminGallery() {
 
     try {
       setUploading(true);
-      await axios.post(API_URL, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      await axios.post(API_URL, formData);
 
       showToast(t.admin.gallery.success, 'success');
       setTitle("");
@@ -104,7 +102,9 @@ function AdminGallery() {
       setShowForm(false);
       fetchGallery();
     } catch (err) {
-      showToast(t.admin.common.error, 'error');
+      const errorMessage =
+        err?.response?.data?.message || t.admin.common.error;
+      showToast(errorMessage, 'error');
       console.error(err);
     } finally {
       setUploading(false);
