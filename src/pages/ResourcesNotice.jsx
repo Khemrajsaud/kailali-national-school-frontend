@@ -22,7 +22,7 @@ const ResourcesNotice = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [expandedNotices, setExpandedNotices] = useState({});
+  const [expandedNoticeId, setExpandedNoticeId] = useState(null);
 
   
   useEffect(() => {
@@ -59,10 +59,7 @@ const ResourcesNotice = () => {
 
  
   const toggleExpanded = (noticeId) => {
-    setExpandedNotices(prev => ({
-      ...prev,
-      [noticeId]: !prev[noticeId]
-    }));
+    setExpandedNoticeId((prevId) => (prevId === noticeId ? null : noticeId));
   };
 
  
@@ -156,20 +153,20 @@ const ResourcesNotice = () => {
         {/* Primary Archive View: Notices Staggered Grid */}
         {!loading && notices.length > 0 && (
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8"
+            className="columns-1 md:columns-2 gap-6 sm:gap-8 space-y-6 sm:space-y-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             {notices.map((notice) => {
-              const isExpanded = expandedNotices[notice.id];
+              const isExpanded = expandedNoticeId === notice.id;
               const shouldShowToggle = notice.description && notice.description.length > 200;
 
               return (
                 <motion.article
                   key={notice.id}
                   variants={itemVariants}
-                  className="flex flex-col bg-(--card) border border-(--border) rounded-3xl overflow-hidden hover:border-(--primary)/50 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300"
+                  className="break-inside-avoid mb-6 sm:mb-8 flex flex-col bg-(--card) border border-(--border) rounded-3xl overflow-hidden hover:border-(--primary)/50 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300"
                 >
                   <div className="p-6 sm:p-8 flex flex-col grow">
                     {/* Notice Primary Identity (Title) */}
