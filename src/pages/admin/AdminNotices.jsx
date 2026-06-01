@@ -15,7 +15,10 @@ import {
   FileText,
   Clock,
   ExternalLink,
-  Loader
+  Loader,
+  CheckCircle2,
+  XCircle,
+  Loader2
 } from "lucide-react";
 import { useAdminTheme } from "../../contexts/AdminThemeContext";
 import { useLanguage } from "../../contexts/LanguageContext";
@@ -23,6 +26,65 @@ import { apiUrl } from "../../config/api";
 
 const API_URL = apiUrl("/api/notice");
 
+
+const Toast = ({ toasts }) => (
+  <div className="fixed top-5 right-5 z-80 flex flex-col gap-2">
+    {toasts.map((t) => (
+      <div
+        key={t.id}
+        className={`flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl text-sm font-bold text-white min-w-[280px] animate-slideInRight border-b-4 ${
+          t.type === "error" ? "bg-red-600 border-red-800" : "bg-emerald-600 border-emerald-800"
+        }`}
+      >
+        {t.type === "error" ? <XCircle size={18} className="shrink-0" /> : <CheckCircle2 size={18} className="shrink-0" />}
+        <span className="flex-1">{t.message}</span>
+      </div>
+    ))}
+    <style>{`
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(50px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+      .animate-slideInRight { animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    `}</style>
+  </div>
+);
+
+const DeleteModal = ({ isDarkMode, item, onConfirm, onCancel, deleting, t }) => (
+  <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/70 backdrop-blur-md">
+    <div className={`rounded-3xl p-8 shadow-2xl max-w-sm w-full mx-4 border animate-scaleIn ${
+      isDarkMode ? "bg-[#0f1729] border-slate-700" : "bg-white border-slate-200"
+    }`}>
+      <div className="w-16 h-16 rounded-3xl bg-red-100 dark:bg-red-500/10 flex items-center justify-center mx-auto mb-5 shadow-inner">
+        <Trash2 size={28} className="text-red-600" />
+      </div>
+      <h3 className={`text-xl font-black text-center mb-3 ${isDarkMode ? "text-white" : "text-slate-900"}`}>
+        Delete Notice
+      </h3>
+      <p className={`text-sm text-center mb-8 leading-relaxed ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>
+        Are you sure you want to delete <span className="font-bold text-blue-500">"{item?.title}"</span>? This action is permanent.
+      </p>
+      <div className="flex gap-4">
+        <button
+          onClick={onCancel}
+          className={`flex-1 py-3.5 rounded-2xl text-sm font-bold transition-all active:scale-95 ${
+            isDarkMode ? "bg-slate-800 text-white hover:bg-slate-700" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+          }`}
+        >
+          {t.admin.common.cancel}
+        </button>
+        <button
+          onClick={onConfirm}
+          disabled={deleting}
+          className="flex-1 py-3.5 rounded-2xl text-sm font-bold bg-red-600 text-white hover:bg-red-700 shadow-xl shadow-red-600/20 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+        >
+          {deleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+          {t.admin.common.delete}
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
 const AdminNotices = () => {
   const { isDarkMode } = useAdminTheme();
@@ -34,6 +96,9 @@ const AdminNotices = () => {
   const [editingNotice, setEditingNotice] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fetchingNotices, setFetchingNotices] = useState(true);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+  const [toasts, setToasts] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -41,6 +106,13 @@ const AdminNotices = () => {
     author: "",
     notice_date: new Date().toISOString().split('T')[0]
   });
+
+  // --- TOAST HANDLER ---
+  const addToast = (message, type = "success") => {
+    const id = Date.now();
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => setToasts((prev) => prev.filter((toast) => toast.id !== id)), 4000);
+  };
 
   // --- DATA FLOW ---
   const fetchNotices = async () => {
@@ -50,6 +122,7 @@ const AdminNotices = () => {
       setNotices(response.data || []);
     } catch (err) {
       console.error("Error fetching notices:", err);
+      addToast(t.admin.common.error, "error");
     } finally {
       setFetchingNotices(false);
     }
@@ -81,13 +154,16 @@ const AdminNotices = () => {
     try {
       if (editingNotice) {
         await axios.put(`${API_URL}/${editingNotice.id}`, formData);
+        addToast("Notice updated successfully ✓");
       } else {
         await axios.post(API_URL, formData);
+        addToast("Notice posted successfully ✓");
       }
       resetForm();
       fetchNotices();
     } catch (err) {
       console.error(err);
+      addToast(t.admin.common.error, "error");
     } finally {
       setLoading(false);
     }
@@ -106,19 +182,34 @@ const AdminNotices = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm(t.admin.notices.deleteConfirm)) return;
-
+  const confirmDelete = async () => {
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      setDeleting(true);
+      await axios.delete(`${API_URL}/${deleteTarget.id}`);
+      addToast("Notice deleted successfully");
+      setDeleteTarget(null);
       fetchNotices();
     } catch (err) {
       console.error(err);
+      addToast(t.admin.common.error, "error");
+    } finally {
+      setDeleting(false);
     }
   };
 
   return (
     <div className="animate-fadeIn">
+      <Toast toasts={toasts} />
+      {deleteTarget && (
+        <DeleteModal
+          isDarkMode={isDarkMode}
+          item={deleteTarget}
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTarget(null)}
+          deleting={deleting}
+          t={t}
+        />
+      )}
       {/* Dynamic Header */}
       <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -281,7 +372,7 @@ const AdminNotices = () => {
                 notice={notice}
                 isDarkMode={isDarkMode}
                 onEdit={handleEdit}
-                onDelete={handleDelete}
+                onDelete={setDeleteTarget}
               />
             ))}
           </div>
@@ -331,7 +422,7 @@ const NoticeCard = ({ notice, isDarkMode, onEdit, onDelete }) => {
               <Pencil size={15} />
             </button>
             <button
-              onClick={() => onDelete(notice.id)}
+              onClick={() => onDelete(notice)}
               className="w-10 h-10 flex items-center justify-center rounded-2xl bg-red-500/10 text-red-600 hover:bg-red-600 hover:text-white transition-all shadow-sm"
             >
               <Trash2 size={15} />

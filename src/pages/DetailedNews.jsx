@@ -14,7 +14,7 @@ import {
   Mail,
   Share2,
 } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 import { motion } from "framer-motion";
 import { apiUrl } from "../config/api";
 
@@ -26,7 +26,7 @@ const API_URL = apiUrl("/api/news");
 const DetailedNews = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
+  const t = siteText;
   const [news, setNews] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -61,7 +61,7 @@ const DetailedNews = () => {
    */
   const formatDate = (date) => {
     if (!date) return t.news.dateNotAvailable;
-    return new Date(date).toLocaleDateString(language === "ne" ? "ne-NP" : "en-US", {
+    return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -136,7 +136,7 @@ const DetailedNews = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-2xl p-6 border flex flex-col items-center text-center gap-4 max-w-md bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-400"
+          className="rounded-2xl p-6 border flex flex-col items-center text-center gap-4 max-w-md bg-red-50 border-red-200 text-red-700"
         >
           <AlertCircle size={48} />
           <p className="text-lg font-medium">{error}</p>

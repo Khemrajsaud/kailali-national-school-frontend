@@ -1,7 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import en from '../translations/en';
-import ne from '../translations/ne';
+import { createContext, useContext, useMemo } from 'react';
+import siteText from '../content/siteText';
 
 const LanguageContext = createContext();
 
@@ -14,34 +12,13 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }) => {
-  const location = useLocation();
-  const [language, setLanguage] = useState(() => {
-    return localStorage.getItem('language') || 'en';
-  });
-
-  const translations = {
-    en,
-    ne
-  };
-
-  const isAdminRoute = location.pathname.startsWith('/admin');
-  const t = isAdminRoute ? translations.en : translations[language];
-
-  useEffect(() => {
-    localStorage.setItem('language', language);
-    document.documentElement.lang = language;
-  }, [language]);
-
-  const toggleLanguage = () => {
-    setLanguage(prev => prev === 'en' ? 'ne' : 'en');
-  };
-
-  const value = {
-    language,
-    setLanguage,
-    toggleLanguage,
-    t
-  };
+  const value = useMemo(
+    () => ({
+      language: 'en',
+      t: siteText,
+    }),
+    [],
+  );
 
   return (
     <LanguageContext.Provider value={value}>

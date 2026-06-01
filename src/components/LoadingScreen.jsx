@@ -31,7 +31,7 @@ const LoadingScreen = ({ onLoadComplete }) => {
         <div className="relative animate-fadeInUp">
           <img
             src={logo}
-            alt="Pioneers Academy Logo"
+            alt="Kailali National School Logo"
             className="h-28 w-28 sm:h-36 sm:w-36 object-contain"
           />
         </div>

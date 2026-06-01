@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 import homepage from "../assets/images/kailali-home.png";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
@@ -25,8 +25,8 @@ const fadeInUp = {
   transition: { duration: 0.6, ease: "easeOut" },
 };
 const About = () => {
-  // Use 't' to access our multi-language text content
-  const { t } = useLanguage();
+  // Use static site text
+  const t = siteText;
   const uniquePoints = [
     {
       icon: <Lightbulb size={24} />,
@@ -111,29 +111,29 @@ const About = () => {
       {/* --- CONTENT AREA --- */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-16 space-y-16 sm:space-y-20">
 
-        {/* WELCOME SECTION
-            Displays a small 'About Us' badge and the main academy biography. */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center animate-fadeInUp">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mt-2">
-                Pioneers <span className="text-(--primary)">Academy</span>
-              </h2>
-              <p className="mt-4 whitespace-pre-line text-sm sm:text-base text-(--muted) text-justify leading-relaxed">
-                {t.about.intro.description}
-              </p>
+        {/* Intro: image left with badge, text right */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center animate-fadeInUp">
+          <div className="relative">
+            <div className="rounded-xl overflow-hidden shadow-lg h-96">
+              <img src={homepage} alt="School" className="w-full h-full object-cover" />
+              <div className="absolute left-6 bottom-6 inline-flex items-center gap-3 rounded-lg bg-white/90 px-4 py-2 shadow">
+                <div className="rounded-full bg-(--primary) h-10 w-10 flex items-center justify-center text-white font-bold">3000+</div>
+                <div className="text-sm">
+                  <div className="text-xs text-(--muted)">Students Believe</div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="rounded-2xl overflow-hidden shadow-xl border-4 border-(--border) animate-slideInRight hover:shadow-2xl transition duration-500">
-            <img
-              src={homepage}
-              alt="School Campus"
-              className="w-full h-64 sm:h-80 md:h-96 object-cover hover:scale-105 transition duration-700"
-            />
+          <div>
+            <div className="inline-flex items-center rounded-full bg-(--primary)/8 px-4 py-2 text-xs font-bold uppercase tracking-widest text-(--primary)">ABOUT US</div>
+            <h2 className="mt-4 text-3xl sm:text-4xl font-bold leading-tight text-(--text)">Where Education Meets Excellence.</h2>
+            <p className="mt-4 text-sm text-(--muted) leading-relaxed text-justify whitespace-pre-line">{t.about.intro.description}</p>
+            <div className="mt-6 flex gap-4">
+              <Link to="/admission" className="inline-block rounded-full bg-red-600 px-6 py-3 text-white font-semibold">ENROLL NOW</Link>
+              <Link to="/prospectus" className="inline-block rounded-full border border-(--primary) px-6 py-3 text-(--primary) font-semibold">PROSPECTUS</Link>
+            </div>
           </div>
-
-         
         </section>
 
         {/* STATS SECTION
@@ -197,145 +197,68 @@ const About = () => {
           </motion.div>
         </motion.section>
         {/* mission and vision */}
-        {/* MISSION & VISION SECTION
-            Detailed view of our core educational philosophy. */}
-        <section className="py-2">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <motion.article
-              className="relative overflow-hidden rounded-2xl border border-(--primary)/20 bg-linear-to-br from-(--card) to-(--primary)/5 p-8 shadow-lg transition-all hover:shadow-xl hover:border-(--primary)/40"
-              whileHover={{ y: -4 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-(--primary)/10 blur-3xl"></div>
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-(--primary) to-(--primary-strong) text-white shadow-lg shadow-(--primary)/30">
-                  <Target className="h-7 w-7" />
+        {/* MISSION & VISION SECTION - blue band */}
+        <section className="rounded-xl overflow-hidden bg-[#1f5a78] text-white">
+          <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="space-y-6">
+              <div className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-widest">SERVE QUALITY EDUCATION</div>
+              <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold">Our Mission and Vision</h3>
+
+              <div className="grid grid-cols-1 gap-4">
+                <div className="rounded-xl bg-white/6 p-6">
+                  <h4 className="text-lg font-bold">Our Mission</h4>
+                  <p className="mt-2 text-sm text-white/90">{t.home.mission.description}</p>
                 </div>
-                <h3 className="mb-4 text-2xl font-bold tracking-tight text-(--text)">
-                  {t.home.vision.title}
-                </h3>
-                <p className="mt-4 text-sm sm:text-base text-(--muted) leading-relaxed text-justify">
-                  {t.home.vision.description}
-                </p>
-              </div>
-            </motion.article>
 
-            <motion.article
-              className="relative overflow-hidden rounded-2xl border border-(--blue3)/20 bg-linear-to-br from-(--card) to-(--blue3)/5 p-8 shadow-lg transition-all hover:shadow-xl hover:border-(--blue3)/40"
-              whileHover={{ y: -4 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <div className="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-(--blue3)/10 blur-3xl"></div>
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-(--blue3) to-(--accent) text-white shadow-lg shadow-(--blue3)/30">
-                  <Lightbulb className="h-7 w-7" />
+                <div className="rounded-xl bg-white/6 p-6">
+                  <h4 className="text-lg font-bold">Our Vision</h4>
+                  <p className="mt-2 text-sm text-white/90">{t.home.vision.description}</p>
                 </div>
-                <h3 className="mb-4 text-2xl font-bold tracking-tight text-(--text)">
-                  {t.home.mission.title}
-                </h3>
-                <p className="mt-4 text-sm sm:text-base text-(--muted) leading-relaxed text-justify">
-                  {t.home.mission.description}
-                </p>
               </div>
-            </motion.article>
+            </div>
+
+            <div>
+              <img src={homepage} alt="Mission" className="w-full rounded-lg shadow-md object-cover h-64" />
+            </div>
           </div>
         </section>
 
-        {/* UNIQUE POINTS SECTION
-            What makes Pioneers Academy stand out from other institutions. */}
-        <section className="animate-fadeInUp">
-          <div className="text-center mb-10 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-(--text) mb-4 leading-tight">
-              {t.about.unique.title}
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg text-(--muted) max-w-3xl mx-auto leading-relaxed">
-              {t.about.unique.subtitle}
-            </p>
+        {/* GUIDING PRINCIPLES / VALUES - split layout */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div>
+            <div className="inline-flex items-center rounded-full bg-(--primary)/8 px-3 py-1 text-xs font-bold uppercase tracking-widest text-(--primary)">CORE VALUES</div>
+            <h3 className="mt-4 text-2xl font-bold">Guiding Principles That Shape Every Learner</h3>
+            <p className="mt-4 text-sm text-(--muted) leading-relaxed">At kailali national school, our values reflect who we are and what we stand for — in every classroom, interaction, and experience.</p>
+            <div className="mt-6">
+              <Link to="/admission" className="inline-block rounded-full border border-(--primary) px-6 py-3 text-(--primary) font-semibold">APPLY NOW</Link>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {uniquePoints.map((point, idx) => (
-              <div
-                key={idx}
-                className="rounded-xl border border-(--border) bg-(--card) p-6 hover:shadow-lg hover:border-(--primary) transition duration-300"
-                style={{ animationDelay: `${idx * 100}ms` }}
-              >
-                <div className="w-12 h-12 rounded-full bg-linear-to-br from-(--primary) to-(--primary-strong) flex items-center justify-center text-white mb-4 shadow-md">
-                  {point.icon}
+          <div className="space-y-4">
+            {[
+              { icon: CheckCircle, title: 'Excellence', text: 'We strive for the highest standards in academics, teaching, and personal growth.' },
+              { icon: Star, title: 'Integrity', text: 'We uphold honesty, fairness, and ethical behavior in everything we do.' },
+              { icon: Heart, title: 'Growth', text: 'We support continuous learning and development to help students reach their full potential.' },
+              { icon: Users, title: 'Responsibility', text: 'We promote accountability and encourage students to be socially and environmentally responsible.' },
+              { icon: Lightbulb, title: 'Innovation', text: 'We foster creative thinking and forward-looking ideas to meet modern challenges.' },
+            ].map((v, i) => {
+              const Icon = v.icon;
+              return (
+                <div key={i} className="flex items-start gap-4 border-b border-(--border) pb-4">
+                  <div className="rounded-full bg-(--card) p-3 text-(--primary)">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-(--text)">{v.title}</h5>
+                    <p className="text-sm text-(--muted) mt-1">{v.text}</p>
+                  </div>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-(--text) mb-2">
-                  {point.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-(--muted) leading-relaxed">
-                  {point.description}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
-        {/* COMMITMENTS SECTION
-            Our core promises to our school community and families. */}
-        <section className="animate-fadeInUp">
-          <div className="text-center mb-10 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-(--text) mb-4 leading-tight">
-              {t.about.commitments.title}
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg text-(--muted) max-w-3xl mx-auto leading-relaxed">
-              {t.about.commitments.subtitle}
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-            {commitments.map((commitment, idx) => (
-              <div
-                key={idx}
-                className="rounded-xl border border-(--border) bg-(--card) p-6 sm:p-8 hover:shadow-lg hover:border-(--primary) transition duration-300"
-              >
-                <h3 className="text-lg sm:text-xl font-bold text-(--text) mb-5">
-                  {commitment.title}
-                </h3>
-                <ul className="space-y-3">
-                  {commitment.points.map((point, pidx) => (
-                    <li key={pidx} className="flex items-start gap-3">
-                      <CheckCircle
-                        className="text-(--primary) shrink-0 mt-0.5"
-                        size={18}
-                      />
-                      <span className="text-xs sm:text-sm text-(--muted)">
-                        {point}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* CALL TO ACTION
-            Encouraging parents to get in touch for admissions or inquiries. */}
-        <section className="rounded-2xl border-2 border-(--primary) bg-linear-to-r from-(--primary)/10 to-(--accent)/10 p-8 sm:p-12 text-center shadow-lg hover:shadow-xl transition duration-300 animate-fadeInUp">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-(--text) mb-4 leading-tight">
-            {t.about.cta.title}
-          </h2>
-          <p className="text-sm sm:text-base md:text-lg text-(--muted) mb-8 max-w-2xl mx-auto leading-relaxed">
-            {t.about.cta.description}
-          </p>
-
-          <Link
-            to="/contact"
-            className="px-8 sm:px-10 py-3 sm:py-4 rounded-lg bg-linear-to-r from-(--primary) to-(--primary-strong) text-white font-semibold hover:shadow-lg transform hover:scale-105 transition duration-300"
-          >
-            {t.about.cta.button}
-          </Link>
-        </section>
       </div>
     </div>
   );

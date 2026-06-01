@@ -16,3 +16,16 @@ Note: This will impact Vite dev & build performances.
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Admin Login
+
+The admin panel now requires login before entering the dashboard.
+
+Set these backend environment variables before running the server:
+
+- `ADMIN_USERNAME`
+- `ADMIN_PASSWORD_HASH` or `ADMIN_PASSWORD`
+- `ADMIN_JWT_SECRET`
+- `FRONTEND_URL`
+
+Admin access starts at `/admin/login`. After signing in, the dashboard, gallery, news, and notices pages are protected by the backend session cookie.

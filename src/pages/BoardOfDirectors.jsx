@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Mail, Phone, MapPin, X } from "lucide-react";
 import homepage from "../assets/images/kailali-home.png";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
  * BoardOfDirectors component showcasing the school's leadership team
  */
 const BoardOfDirectors = () => {
-  const { t } = useLanguage();
+  const t = siteText;
   const [selectedMember, setSelectedMember] = useState(null);
 
   /**

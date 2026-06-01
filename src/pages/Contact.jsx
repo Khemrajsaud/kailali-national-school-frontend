@@ -1,16 +1,21 @@
-
-import { Mail, MapPin, Phone, Send } from "lucide-react";
-import contactImg from "../assets/images/kailali-home.png";
-import { useLanguage } from "../contexts/LanguageContext";
+import { ArrowRight, Mail, MapPin, Phone, Send } from "lucide-react";
+import contactImg from "../assets/images/dummyimage.png";
+import siteText from "../content/siteText";
 import emailjs from "@emailjs/browser";
 import { useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
-  const { t } = useLanguage();
+  const t = siteText;
   const form = useRef();
   const [sending, setSending] = useState(false);
+
+  const contactItems = [
+    { title: "Call Us", value: "+977-91-540290", icon: Phone },
+    { title: "Email Us", value: "info@kailalinationalschool.edu.np", icon: Mail },
+    { title: "Address", value: "Lamki, Lamkichuha-2, Kailali, Nepal", icon: MapPin },
+  ];
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -25,197 +30,111 @@ const Contact = () => {
       )
       .then(
         () => {
-          // Show success toast using translated message
-          toast.success(t.contact.form.success, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-          });
-          e.target.reset(); // Clear form after success
+          toast.success(t.contact.form.success, { position: "top-right", autoClose: 5000 });
+          e.target.reset();
         },
         (error) => {
           console.error("Email send error:", error);
-          // Show error toast if submission fails
-          toast.error(t.contact.form.error, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-          });
+          toast.error(t.contact.form.error, { position: "top-right", autoClose: 5000 });
         }
       )
-      .finally(() => {
-        setSending(false);
-      });
+      .finally(() => setSending(false));
   };
 
   return (
     <div className="min-h-screen bg-(--bg) text-(--text)">
       <ToastContainer />
 
-      {/* Hero Banner Area */}
-      <div className="relative h-44 sm:h-56 md:h-64 w-full overflow-hidden group">
-        <img src={contactImg} alt="Contact" className="w-full h-full object-cover " />
-        <div className="absolute inset-0 bg-linear-to-b from-black/30 to-black/55" />
-        <div className="absolute inset-0">
-          <div className="max-w-7xl mx-auto h-full flex items-center px-4 sm:px-6">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="bg-(--primary) h-12 sm:h-14 w-2 rounded-xs" />
-              <h1 className="text-white text-2xl sm:text-4xl md:text-5xl font-semibold">
-                {t.contact.hero}
-              </h1>
-            </div>
-          </div>
+      <div className="relative overflow-hidden border-b bg-linear-to-b from-slate-50 via-white to-slate-200">
+        <div className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:py-24">
+          <h1 className="mt-5 text-4xl font-black tracking-tight text-(--text) sm:text-5xl lg:text-6xl">Get in touch with us</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-(--muted) sm:text-base">Home / Contact Us</p>
         </div>
       </div>
 
-      {/* --- CONTENT AREA --- */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-16 space-y-12">
+      <div className="mx-auto max-w-7xl space-y-10 px-4 py-10 sm:px-6 sm:py-16 sm:space-y-14">
+        <section className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="overflow-hidden bg-(--card) shadow-lg">
+            <img src={contactImg} alt="Contact team" className="h-full w-full object-cover" />
+          </div>
 
-        {/* WELCOME SECTION
-            Brief intro text about contacting the school. */}
-        <section className="text-center animate-fadeInUp">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-(--text) mb-4 leading-tight">
-            {t.contact.intro}
-          </h2>
-          <p className="text-sm sm:text-base md:text-lg text-(--muted) max-w-3xl mx-auto leading-relaxed">
-            {t.contact.subtitle}
-          </p>
+          <div className="bg-(--card) p-6 shadow-lg sm:p-8">
+            <div className="inline-flex items-center rounded-full border border-(--primary)/20 bg-(--primary)/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.25em] text-(--primary)">Contact Us</div>
+            <h2 className="mt-4 text-2xl font-black tracking-tight text-(--text) sm:text-3xl">Get in touch with us</h2>
+            <p className="mt-3 max-w-xl text-sm text-(--muted) sm:text-base">Have a question or need more information? Send us a message and we will get back to you shortly.</p>
+
+            <div className="mt-8">
+              {contactItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.title} className="flex items-start gap-4 border-b border-(--border) py-5 last:border-b-0">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-(--primary)/10 text-(--primary)">
+                      <Icon size={20} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-bold text-(--text)">{item.title}</p>
+                      <p className="mt-1 break-all text-sm text-(--muted)">{item.value}</p>
+                    </div>
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--primary) text-white"><ArrowRight size={14} /></span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </section>
 
-        {/* CONTACT INFO CARDS
-            Direct links/info for Location, Phone, and Email. */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 animate-fadeInUp">
-
-          <div className="rounded-xl border border-(--border) bg-(--card) p-6 hover:shadow-lg hover:border-(--primary) transition duration-300">
-            <div className="w-12 h-12 rounded-full bg-linear-to-br from-(--primary) to-(--primary-strong) flex items-center justify-center text-white mb-4 shadow-md">
-              <MapPin size={24} />
-            </div>
-            <h3 className="text-base sm:text-lg font-bold text-(--text) mb-2">{t.contact.info.visitTitle}</h3>
-            <p className="text-xs sm:text-sm text-(--muted)">
-              {t.contact.info.visitAddress}
-            </p>
+        <section className="grid grid-cols-1 items-start gap-8 bg-[#eef5fb] p-6 sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:p-10">
+          <div className="pt-2">
+            <h3 className="text-2xl font-black tracking-tight text-(--text) sm:text-3xl">Let’s Connect and Build Your Future Together</h3>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-(--muted) sm:text-base">Have a question or need more information? Send us a message and we will get back to you shortly.</p>
           </div>
 
-          <div className="rounded-xl border border-(--border) bg-(--card) p-6 hover:shadow-lg hover:border-(--primary) transition duration-300">
-            <div className="w-12 h-12 rounded-full bg-linear-to-br from-(--primary) to-(--primary-strong) flex items-center justify-center text-white mb-4 shadow-md">
-              <Phone size={24} />
-            </div>
-            <h3 className="text-base sm:text-lg font-bold text-(--text) mb-2">{t.contact.info.callTitle}</h3>
-            <p className="text-xs sm:text-sm text-(--muted)">{t.contact.info.callPhone}</p>
-            <p className="text-xs sm:text-sm text-(--muted)">+977-9848420207</p>
-          </div>
+          <div className="bg-white p-6 shadow-lg sm:p-8">
+            <h3 className="text-center text-2xl font-black text-(--text) sm:text-3xl">Send a Message</h3>
 
-          <div className="rounded-xl border border-(--border) bg-(--card) p-6 hover:shadow-lg hover:border-(--primary) transition duration-300">
-            <div className="w-12 h-12 rounded-full bg-linear-to-br from-(--primary) to-(--primary-strong) flex items-center justify-center text-white mb-4 shadow-md">
-              <Mail size={24} />
-            </div>
-            <h3 className="text-base sm:text-lg font-bold text-(--text) mb-2">{t.contact.info.emailTitle}</h3>
-            <p className="text-xs sm:text-sm text-(--muted)">{t.contact.info.emailAddress}</p>
-            <p className="text-xs sm:text-sm text-(--muted)">kailali@nationalschool.edu.np</p>
-          </div>
-
-        </section>
-
-        {/* MESSAGE FORM
-            Submit an enquiry via EmailJS integration. */}
-        <section className="animate-fadeInUp">
-          <div className="rounded-2xl border-2 border-(--border) bg-(--card) p-6 sm:p-8 shadow-lg hover:shadow-xl transition duration-300">
-            <h3 className="text-lg sm:text-xl font-bold text-(--text) mb-6">
-              {t.contact.form.title}
-            </h3>
-
-            <form ref={form} onSubmit={sendEmail} className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
+            <form ref={form} onSubmit={sendEmail} className="mt-8 grid grid-cols-1 gap-5">
               <div>
-                <label className="text-xs sm:text-sm text-(--muted) font-medium">{t.contact.form.name}</label>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder={t.contact.form.placeholderName}
-                  className="mt-2 w-full rounded-lg border border-(--border) bg-(--bg) px-4 py-3 text-sm text-(--text) focus:outline-none focus:ring-2 focus:ring-(--primary) transition"
-                  required
-                />
+                <label className="text-xs font-bold text-(--text)">{t.contact.form.name} *</label>
+                <input type="text" name="name" placeholder={t.contact.form.placeholderName} className="mt-2 w-full rounded-none border border-slate-300 bg-white px-4 py-3 text-sm text-(--text) focus:outline-none focus:ring-2 focus:ring-(--primary)" required />
               </div>
 
               <div>
-                <label className="text-xs sm:text-sm text-(--muted) font-medium">{t.contact.form.email}</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder={t.contact.form.placeholderEmail}
-                  className="mt-2 w-full rounded-lg border border-(--border) bg-(--bg) px-4 py-3 text-sm text-(--text) focus:outline-none focus:ring-2 focus:ring-(--primary) transition"
-                  required
-                />
+                <label className="text-xs font-bold text-(--text)">{t.contact.form.email} *</label>
+                <input type="email" name="email" placeholder={t.contact.form.placeholderEmail} className="mt-2 w-full rounded-none border border-slate-300 bg-white px-4 py-3 text-sm text-(--text) focus:outline-none focus:ring-2 focus:ring-(--primary)" required />
               </div>
 
-              <div className="md:col-span-2">
-                <label className="text-xs sm:text-sm text-(--muted) font-medium">{t.contact.form.subject}</label>
-                <input
-                  type="text"
-                  name="subject"
-                  placeholder={t.contact.form.placeholderSubject}
-                  className="mt-2 w-full rounded-lg border border-(--border) bg-(--bg) px-4 py-3 text-sm text-(--text) focus:outline-none focus:ring-2 focus:ring-(--primary) transition"
-                  required
-                />
+              <div>
+                <label className="text-xs font-bold text-(--text)">{t.contact.form.subject} *</label>
+                <input type="text" name="subject" placeholder={t.contact.form.placeholderSubject} className="mt-2 w-full rounded-none border border-slate-300 bg-white px-4 py-3 text-sm text-(--text) focus:outline-none focus:ring-2 focus:ring-(--primary)" required />
               </div>
 
-              <div className="md:col-span-2">
-                <label className="text-xs sm:text-sm text-(--muted) font-medium">{t.contact.form.message}</label>
-                <textarea
-                  rows="6"
-                  name="message"
-                  placeholder={t.contact.form.placeholderMessage}
-                  className="mt-2 w-full rounded-lg border border-(--border) bg-(--bg) px-4 py-3 text-sm text-(--text) focus:outline-none focus:ring-2 focus:ring-(--primary) transition resize-none"
-                  required
-                />
+              <div>
+                <label className="text-xs font-bold text-(--text)">{t.contact.form.message} *</label>
+                <textarea rows="6" name="message" placeholder={t.contact.form.placeholderMessage} className="mt-2 w-full resize-none rounded-none border border-slate-300 bg-white px-4 py-3 text-sm text-(--text) focus:outline-none focus:ring-2 focus:ring-(--primary)" required />
               </div>
 
-              <div className="md:col-span-2">
-                <button
-                  type="submit"
-                  disabled={sending}
-                  className="inline-flex items-center gap-2 rounded-lg bg-linear-to-r from-(--primary) to-(--primary-strong) px-6 py-3 text-white font-semibold hover:shadow-lg transform hover:scale-105 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                >
+              <div>
+                <button type="submit" disabled={sending} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-red-600 px-6 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60">
                   <Send size={18} className={sending ? "animate-pulse" : ""} />
-                  {sending ? t.contact.form.sending : t.contact.form.button}
+                  {sending ? t.contact.form.sending : "Submit"}
                 </button>
               </div>
-
             </form>
           </div>
         </section>
       </div>
 
-      {/* MAP SECTION
-          Google Maps integration for physical location. */}
-      <section className="px-4 sm:px-6 pb-8 sm:pb-16 animate-fadeInUp">
-        <div className="overflow-hidden rounded-2xl border-2 border-(--border) bg-(--card) shadow-lg hover:shadow-xl transition duration-300">
-          <div className="p-4 sm:p-6 border-b border-(--border)">
-            <h3 className="text-xl sm:text-2xl font-bold text-(--text) mb-2">
-              {t.contact.map.title}
-            </h3>
-            <p className="text-sm sm:text-base text-(--muted) leading-relaxed max-w-4xl">
-              {t.contact.locationDesc}
-            </p>
-          </div>
-
-          <div className="relative h-90 sm:h-115 lg:h-140 w-full">
-           <iframe
-  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d448135.2249129021!2d80.56742510982367!3d28.658028542874764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a2133dadf31a3f%3A0xe1ad6e8ca9f00426!2sKailali%20National%20Academy!5e0!3m2!1sen!2snp!4v1776084561266!5m2!1sen!2snp"
-  className="h-full w-full border-0"
-  allowFullScreen
-  loading="lazy"
-  referrerPolicy="no-referrer-when-downgrade"
-  title="Kailali National Academy"
-></iframe>
-
-
+      <section className="px-4 pb-8 sm:px-6 sm:pb-16 animate-fadeInUp">
+        <div className="overflow-hidden">
+          <div className="relative h-90 w-full sm:h-115 lg:h-140">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d448135.2249129021!2d80.56742510982367!3d28.658028542874764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a2133dadf31a3f%3A0xe1ad6e8ca9f00426!2sKailali%20National%20Academy!5e0!3m2!1sen!2snp!4v1776084561266!5m2!1sen!2snp"
+              className="h-full w-full border-0"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Kailali National Academy"
+            />
           </div>
         </div>
       </section>

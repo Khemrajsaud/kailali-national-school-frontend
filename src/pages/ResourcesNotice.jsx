@@ -10,7 +10,7 @@ import {
   ChevronUp,
   User
 } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiUrl } from "../config/api";
 
@@ -18,7 +18,7 @@ const API_URL = apiUrl("/api/notice");
 
 
 const ResourcesNotice = () => {
-  const { t, language } = useLanguage();
+  const t = siteText;
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,7 +47,7 @@ const ResourcesNotice = () => {
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString(language === 'ne' ? 'ne-NP' : 'en-US', {
+      return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
@@ -124,7 +124,7 @@ const ResourcesNotice = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-2xl mx-auto rounded-2xl p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 flex items-center gap-4 text-red-600 dark:text-red-400"
+            className="max-w-2xl mx-auto rounded-2xl p-6 bg-red-50 border border-red-200 flex items-center gap-4 text-red-600"
           >
             <AlertCircle size={24} className="shrink-0" />
             <p className="text-base font-medium m-0">{error}</p>

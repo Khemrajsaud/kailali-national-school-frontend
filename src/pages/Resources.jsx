@@ -10,13 +10,13 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import homepage from "../assets/images/homepage.png";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 
 /**
  * Resources component acting as a central hub for school documents, news, and schedules
  */
 const Resources = () => {
-  const { t } = useLanguage();
+  const t = siteText;
 
   // Mapping static icons to data from translation context
   const quickLinks = [
@@ -123,13 +123,13 @@ const Resources = () => {
               {t.resources.routineList.map((item, idx) => (
                 <li key={idx} className="flex items-center gap-3 p-2 rounded-lg bg-(--card)/50 border border-(--border)/50">
                   <div className="w-1.5 h-1.5 rounded-full bg-(--primary)" />
-                  <span className="font-medium">{item}</span>
+          import siteText from "../content/siteText";
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Assessment Cycles Preview */}
+            const t = siteText;
           <div className="rounded-3xl border border-(--border) bg-(--bg-alt) p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-(--primary)/10 text-(--primary)">

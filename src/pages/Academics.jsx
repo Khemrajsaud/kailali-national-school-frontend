@@ -3,7 +3,7 @@ import { ChevronDown, BookOpen, Users, ClipboardList, Trophy, Globe, GraduationC
 import Academy from "../assets/images/kailali-home.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 
 
 const fadeInUp = {
@@ -17,7 +17,7 @@ const fadeInUp = {
  * Academics component showcasing the school's educational programs
  */
 const Academics = () => {
-  const { t } = useLanguage();
+  const t = siteText;
   const [activeLevel, setActiveLevel] = useState("preprimary");
   const [openDropdown, setOpenDropdown] = useState(false);
   const dropdownRef = useRef(null);

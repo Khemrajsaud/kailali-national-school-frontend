@@ -13,12 +13,8 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <LanguageProvider>
         <App />
-         <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            theme="colored"
-          />
+        <ToastContainer position="top-right" autoClose={3000} theme="colored" />
       </LanguageProvider>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 );

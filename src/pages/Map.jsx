@@ -1,10 +1,10 @@
 import { MapPin, Home, Phone, Mail, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 
 const Map = () => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const t = siteText;
 
   const transportRoutes = [
     {

@@ -25,7 +25,7 @@ function Layout({ children }) {
     <>
       <AdmissionPopup />
       <Navbar />
-      <main className="lg:px-10">
+      <main className="">
         {children || <Outlet />}
       </main>
       <Footer />

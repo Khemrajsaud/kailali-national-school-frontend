@@ -38,7 +38,7 @@ const Sidebar = () => {
         <div>
           <p className={`text-sm font-black tracking-tight leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'
             }`}>
-            Pioneers
+            Kailali National School
           </p>
           <p className="text-xs font-semibold text-blue-500">Admin Panel</p>
         </div>

@@ -1,10 +1,10 @@
 import { AlertTriangle, CheckCircle, Clock, Shield, UserCheck, Users } from "lucide-react";
 import homepage from "../assets/images/kailali-home.png";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 
 const Rules = () => {
-  // Access global translation keys
-  const { t } = useLanguage();
+  // Access static site text
+  const t = siteText;
 
   // Array of school rules and their respective categories (Attendance, Dress Code, etc.)
   const rules = [

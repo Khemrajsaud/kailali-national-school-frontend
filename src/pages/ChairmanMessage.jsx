@@ -7,13 +7,13 @@ import {
 } from "lucide-react";
 import homepage from "../assets/images/kailali-home.png";
 import { motion } from "framer-motion";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 
 /**
  * ChairmanMessage component displaying the Chairman's vision and address
  */
 const ChairmanMessage = () => {
-  const { t } = useLanguage();
+  const t = siteText;
   const [copied, setCopied] = useState(false);
 
   /**
@@ -93,7 +93,7 @@ const ChairmanMessage = () => {
           {/* Official Identification Card */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10 p-8 sm:p-12 border-b border-(--border)/50 bg-linear-to-br from-(--primary)/5 to-(--card)">
             <motion.div
-              className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden shrink-0 shadow-lg border-4 border-white dark:border-(--card)"
+              className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden shrink-0 shadow-lg border-4 border-white"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}

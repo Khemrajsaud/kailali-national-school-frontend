@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Newspaper, Loader2, CalendarDays, UserRound, AlertCircle, Eye, ArrowRight } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { apiUrl } from "../config/api";
@@ -13,7 +13,7 @@ const API_URL = apiUrl("/api/news");
  */
 const ResourceNews = () => {
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
+  const t = siteText;
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -67,7 +67,7 @@ const ResourceNews = () => {
    */
   const formatDate = (date) => {
     if (!date) return t.news.dateNotAvailable;
-    return new Date(date).toLocaleDateString(language === "ne" ? "ne-NP" : "en-US", {
+    return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -130,7 +130,7 @@ const ResourceNews = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-2xl mx-auto rounded-2xl p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 flex items-center gap-4 text-red-600 dark:text-red-400"
+            className="max-w-2xl mx-auto rounded-2xl p-6 bg-red-50 border border-red-200 flex items-center gap-4 text-red-600"
           >
             <AlertCircle size={24} className="shrink-0" />
             <p className="text-base font-medium m-0">{error}</p>

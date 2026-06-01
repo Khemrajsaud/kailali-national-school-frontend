@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { AlertTriangle, Home } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 
 /**
  * NotFound component for rendering the 404 Error page
  */
 const NotFound = () => {
-  const { t } = useLanguage();
+  const t = siteText;
 
   return (
     <section className="min-h-[70vh] flex items-center justify-center px-4 py-16 bg-(--bg) transition-colors">

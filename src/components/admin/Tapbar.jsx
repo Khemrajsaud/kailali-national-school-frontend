@@ -1,7 +1,9 @@
 import React from 'react';
-import { Moon, Sun, GraduationCap } from 'lucide-react';
+import { Moon, Sun, LogOut } from 'lucide-react';
 import { useAdminTheme } from '../../contexts/AdminThemeContext';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAdminAuth } from '../../contexts/AdminAuthContext';
 
 const pageTitles = {
   '/admin/dashboard': { title: 'Dashboard', subtitle: 'Overview of your school content' },
@@ -12,8 +14,15 @@ const pageTitles = {
 
 const Topbar = () => {
   const { isDarkMode, toggleTheme } = useAdminTheme();
+  const { logout } = useAdminAuth();
+  const navigate = useNavigate();
   const location = useLocation();
   const page = pageTitles[location.pathname] || { title: 'Admin', subtitle: '' };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/admin/login', { replace: true });
+  };
 
   return (
     <header className={`sticky top-0 z-20 border-b transition-colors duration-300 ${isDarkMode
@@ -53,6 +62,18 @@ const Topbar = () => {
           >
             {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
             <span className="hidden sm:inline">{isDarkMode ? 'Light' : 'Dark'}</span>
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isDarkMode
+                ? 'bg-red-500/10 text-red-300 hover:bg-red-500/20'
+                : 'bg-red-50 text-red-600 hover:bg-red-100'
+              }`}
+            title="Logout"
+          >
+            <LogOut size={16} />
+            <span className="hidden sm:inline">Logout</span>
           </button>
         </div>
       </div>

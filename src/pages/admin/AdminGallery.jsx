@@ -115,10 +115,6 @@ function AdminGallery() {
    * Deletes a record after confirmation.
    */
   const handleDelete = async (id) => {
-    if (!window.confirm(t.admin.gallery.deleteConfirm)) {
-      return;
-    }
-
     try {
       setDeleting(id);
       await axios.delete(`${API_URL}/${id}`);

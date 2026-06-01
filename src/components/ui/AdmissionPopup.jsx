@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { X, Sparkles } from "lucide-react";
 import logo from "../../assets/logo/school.png";
-import { useLanguage } from "../../contexts/LanguageContext";
+import siteText from "../../content/siteText";
 
 const AdmissionPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { t } = useLanguage();
+  const t = siteText;
 
   useEffect(() => {
     // Check if the user has already seen and closed the popup in this session.

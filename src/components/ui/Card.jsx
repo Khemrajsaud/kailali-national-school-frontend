@@ -19,12 +19,12 @@ const Card = ({
   };
 
   const colorClasses = {
-    pink: 'bg-pink-50/40 dark:bg-pink-900/10',
-    blue: 'bg-blue-50/40 dark:bg-blue-900/10',
-    purple: 'bg-purple-50/40 dark:bg-purple-900/10',
-    green: 'bg-green-50/40 dark:bg-green-900/10',
-    orange: 'bg-orange-50/40 dark:bg-orange-900/10',
-    yellow: 'bg-amber-50/40 dark:bg-amber-900/10',
+    pink: 'bg-pink-50/40',
+    blue: 'bg-blue-50/40',
+    purple: 'bg-purple-50/40',
+    green: 'bg-green-50/40',
+    orange: 'bg-orange-50/40',
+    yellow: 'bg-amber-50/40',
     rainbow: 'bg-(--bg-alt)'
   };
 
@@ -82,12 +82,12 @@ Card.Footer = ({ children, className = '', ...props }) => (
 // Icon Card - Perfect for features or facilities
 export const IconCard = ({ icon, title, description, color = 'blue', ...props }) => {
   const iconColors = {
-    blue: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-    pink: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300',
-    purple: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
-    green: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
-    orange: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
-    red: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+    blue: 'bg-blue-100 text-blue-700',
+    pink: 'bg-pink-100 text-pink-700',
+    purple: 'bg-purple-100 text-purple-700',
+    green: 'bg-green-100 text-green-700',
+    orange: 'bg-orange-100 text-orange-700',
+    red: 'bg-red-100 text-red-700'
   };
 
   return (

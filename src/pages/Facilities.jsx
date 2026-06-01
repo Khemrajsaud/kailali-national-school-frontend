@@ -3,11 +3,11 @@ import {
   Music, Users, Brain, Wifi, Microscope, Presentation, Award
 } from "lucide-react";
 import homepage from "../assets/images/kailali-home.png";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 
 const Facilities = () => {
-  // Access global translations via our custom language context
-  const { t } = useLanguage();
+  // Access static translations
+  const t = siteText;
 
   // Array of all school services. These map directly to translation keys
   // for easy maintenance of both English and Nepali versions.

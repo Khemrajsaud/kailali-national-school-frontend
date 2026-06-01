@@ -9,7 +9,7 @@ import {
   RefreshCw,
   ServerOff,
 } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
+import siteText from "../content/siteText";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiUrl } from "../config/api";
 
@@ -18,7 +18,7 @@ const API_URL = apiUrl("/api/gallery");
 
 
 function ResourceGallery() {
-  const { t } = useLanguage();
+  const t = siteText;
   const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
