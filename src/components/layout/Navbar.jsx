@@ -1,117 +1,133 @@
 import { useEffect, useRef, useState } from "react";
 import logo from "../../assets/icons/school.png";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, Phone, Mail, GraduationCap } from "lucide-react";
 import siteText from "../../content/siteText";
-import { Phone } from 'lucide-react';
-import { Mails } from 'lucide-react';
 
+const academicItems = [
+  { label: "Primary School", to: "/academic/primary" },
+  { label: "Secondary School", to: "/academic/secondary" },
+  { label: "+2 Program", to: "/academic/plus-two" },
+];
+
+const navItems = [
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Admissions", to: "/admission" },
+  { label: "Gallery", to: "/resources/gallery" },
+  { label: "Notice Board", to: "/resources/notices" },
+  { label: "Contact", to: "/contact" },
+  { label: "News & Article", to: "/resources/news" },
+];
 
 const Navbar = () => {
-
   const t = siteText;
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [academicsOpen, setAcademicsOpen] = useState(false);
+  const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const location = useLocation();
 
-  const navItems = [
-    { label: "Home", to: "/" },
-    { label: "About", to: "/about" },
-    { label: "Admissions", to: "/admission" },
-    { label: "Gallery", to: "/resources/gallery" },
-    { label: "Notice Board", to: "/resources/notices" },
-    { label: "Contact", to: "/contact" },
-    { label: "News & Artical", to: "/resources/news" },
-  ];
-
-  const academicItems = [
-    { label: "Primary School", to: "/academic/primary" },
-    { label: "Secondary School", to: "/academic/secondary" },
-    { label: "+2 Program", to: "/academic/plus-two" },
-  ];
-
-  const handleLinkClick = () => {
-    setIsOpen(false);
-    setAcademicsOpen(false);
-  };
-
+  // Close everything on route change
   useEffect(() => {
-    setIsOpen(false);
+    setMobileOpen(false);
     setAcademicsOpen(false);
+    setMobileAcademicsOpen(false);
   }, [location.pathname]);
 
+  // Close desktop dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setAcademicsOpen(false);
       }
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
+  const isActive = (to) => location.pathname === to;
+  const isAcademicActive = academicItems.some((i) => location.pathname === i.to);
 
   return (
     <>
-     
-      <div className="flex items-center gap-9 justify-center bg-white py-4 text-center text-black">
-       
-       <Mails className="text-sm text-red-900" />
-
-        <p className="text-sm">national@kailalinational.edu.np</p>
-         <Phone className="text-sm text-red-900" />
-        <p className="text-sm">+977-91-540488</p>
-       
+      {/* Top contact bar */}
+      <div className="hidden sm:flex items-center justify-center gap-6 bg-white py-2.5 text-sm text-slate-700">
+        <span className="flex items-center gap-1.5">
+          <Mail size={14} className="text-red-900" />
+          national@kailalinational.edu.np
+        </span>
+        <span className="w-px h-4 bg-slate-200" />
+        <span className="flex items-center gap-1.5">
+          <Phone size={14} className="text-red-900" />
+          +977-91-540488
+        </span>
       </div>
 
-    <nav className="sticky top-0 z-50 border-b border-(--border) bg-[#b0173b] backdrop-blur-md shadow-sm">
-        <div className="mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-2 py-3">
+      <nav className="sticky top-0 z-50 bg-[#b0173b] shadow-md">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3 flex items-center justify-between">
 
-          {/* BRANDING (Logo & School Name) */}
-          <div className="flex items-center gap-3">
-            <Link to="/" onClick={handleLinkClick} className="hover:opacity-80 transition-opacity duration-300">
-              <img className="w-12 sm:w-14" src={logo} alt="Logo" />
-            </Link>
-            <div>
-              <h1 className="text-[16px] lg:text-[17px] text-white tracking-tight">
-                {t.nav.brandTitle}
-              </h1>
-            
-            </div>
-          </div>
+          {/* Logo + School Name */}
+          <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity shrink-0">
+            <img src={logo} alt="Logo" className="w-11 sm:w-13" />
+            <span className="text-white font-bold text-[15px] sm:text-[16px] leading-tight max-w-[160px] sm:max-w-none">
+              {t.nav.brandTitle}
+            </span>
+          </Link>
 
-          {/* DESKTOP LINKS (Hidden on mobile) */}
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2 text-[16px] lg:text-[17px] font-semibold ">
+          {/* Desktop nav links */}
+          <div className="hidden lg:flex items-center gap-0.5 xl:gap-1">
             {navItems.map((item) => (
               <Link
-                key={item.label}
+                key={item.to}
                 to={item.to}
-                className="px-3 py-2 text-[16px] lg:text-[17px] text-white font-semibold "
+                className={`px-3 py-2 rounded-lg text-[14px] xl:text-[15px] font-semibold transition-colors ${
+                  isActive(item.to)
+                    ? "bg-white/20 text-white"
+                    : "text-white/90 hover:text-white hover:bg-white/10"
+                }`}
               >
                 {item.label}
               </Link>
             ))}
 
+            {/* Academics dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 type="button"
-                onClick={() => setAcademicsOpen((value) => !value)}
-                className="px-3 py-2 text-[16px] lg:text-[17px] text-white font-semibold inline-flex items-center gap-1"
+                onClick={() => setAcademicsOpen((v) => !v)}
+                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-[14px] xl:text-[15px] font-semibold transition-colors ${
+                  isAcademicActive || academicsOpen
+                    ? "bg-white/20 text-white"
+                    : "text-white/90 hover:text-white hover:bg-white/10"
+                }`}
               >
                 Academics
-                <ChevronDown size={16} className={`transition-transform ${academicsOpen ? "rotate-180" : ""}`} />
+                <ChevronDown
+                  size={15}
+                  className={`transition-transform duration-200 ${academicsOpen ? "rotate-180" : ""}`}
+                />
               </button>
 
               {academicsOpen && (
-                <div className="absolute left-0 top-full mt-2 w-56 overflow-hidden rounded-xl border border-white/15 bg-white text-(--text) shadow-2xl">
+                <div className="absolute left-0 top-full mt-2 w-52 rounded-2xl border border-white/10 bg-white shadow-2xl overflow-hidden z-50">
                   {academicItems.map((item) => (
                     <Link
-                      key={item.label}
+                      key={item.to}
                       to={item.to}
-                      onClick={handleLinkClick}
-                      className="block px-4 py-3 text-sm font-semibold hover:bg-slate-100"
+                      className={`flex items-center gap-2.5 px-4 py-3 text-sm font-semibold transition-colors ${
+                        isActive(item.to)
+                          ? "bg-red-50 text-[#b0173b]"
+                          : "text-slate-700 hover:bg-slate-50 hover:text-[#b0173b]"
+                      }`}
                     >
+                      <GraduationCap size={15} className="text-[#b0173b] shrink-0" />
                       {item.label}
                     </Link>
                   ))}
@@ -120,57 +136,121 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* CONTROLS */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            {/* Mobile Actions Container */}
-            <div className="lg:hidden flex items-center gap-2">
-              <button onClick={() => setIsOpen(!isOpen)} className="p-2 rounded-lg bg-(--primary) text-white shadow-lg shadow-blue-500/20">
-                {isOpen ? <X size={20} /> : <Menu size={20} />}
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen((v) => !v)}
+            className="lg:hidden p-2 rounded-xl bg-white/15 text-white hover:bg-white/25 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+
+        {/* Mobile menu overlay */}
+        <div
+          className={`lg:hidden fixed inset-0 top-0 z-40 transition-all duration-300 ${
+            mobileOpen ? "visible opacity-100" : "invisible opacity-0"
+          }`}
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setMobileOpen(false)}
+          />
+
+          {/* Drawer */}
+          <div
+            className={`absolute top-0 right-0 h-full w-[280px] sm:w-[320px] bg-white shadow-2xl flex flex-col transition-transform duration-300 ${
+              mobileOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            {/* Drawer header */}
+            <div className="flex items-center justify-between px-5 py-4 bg-[#b0173b]">
+              <div className="flex items-center gap-3">
+                <img src={logo} alt="Logo" className="w-9" />
+                <span className="text-white font-bold text-sm leading-tight">
+                  {t.nav.brandTitle}
+                </span>
+              </div>
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="p-1.5 rounded-lg bg-white/15 text-white hover:bg-white/25 transition-colors"
+              >
+                <X size={18} />
               </button>
+            </div>
+
+            {/* Contact info (mobile only) */}
+            <div className="px-5 py-3 bg-red-50 border-b border-red-100 flex flex-col gap-1.5 text-xs text-slate-600">
+              <span className="flex items-center gap-2">
+                <Mail size={12} className="text-[#b0173b]" />
+                national@kailalinational.edu.np
+              </span>
+              <span className="flex items-center gap-2">
+                <Phone size={12} className="text-[#b0173b]" />
+                +977-91-540488
+              </span>
+            </div>
+
+            {/* Nav links */}
+            <div className="flex-1 overflow-y-auto px-3 py-4 flex flex-col gap-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={`px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
+                    isActive(item.to)
+                      ? "bg-[#b0173b] text-white"
+                      : "text-slate-700 hover:bg-red-50 hover:text-[#b0173b]"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              {/* Mobile academics accordion */}
+              <div className="rounded-xl border border-slate-100 overflow-hidden mt-1">
+                <button
+                  type="button"
+                  onClick={() => setMobileAcademicsOpen((v) => !v)}
+                  className={`w-full flex items-center justify-between px-4 py-3 text-sm font-semibold transition-colors ${
+                    isAcademicActive
+                      ? "bg-[#b0173b] text-white"
+                      : "text-slate-700 hover:bg-red-50 hover:text-[#b0173b]"
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <GraduationCap size={16} />
+                    Academics
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform duration-200 ${mobileAcademicsOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+
+                {mobileAcademicsOpen && (
+                  <div className="bg-slate-50 border-t border-slate-100">
+                    {academicItems.map((item) => (
+                      <Link
+                        key={item.to}
+                        to={item.to}
+                        className={`flex items-center gap-3 px-5 py-3 text-sm font-medium border-b border-slate-100 last:border-0 transition-colors ${
+                          isActive(item.to)
+                            ? "bg-red-50 text-[#b0173b] font-semibold"
+                            : "text-slate-600 hover:bg-red-50 hover:text-[#b0173b]"
+                        }`}
+                      >
+                        <GraduationCap size={14} className="text-[#b0173b] shrink-0" />
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-
-        {/* MOBILE OVERLAY MENU */}
-        {isOpen && (
-          <div className="lg:hidden absolute left-0 top-full w-full border-b border-(--border) bg-(--bg) text-(--text) p-4 shadow-2xl animate-slideInDown flex flex-col gap-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.label}
-                to={item.to}
-                onClick={handleLinkClick}
-                className="p-3 rounded-xl hover:bg-(--bg-alt) font-bold text-sm"
-              >
-                {item.label}
-              </Link>
-            ))}
-
-            <div className="rounded-xl border border-(--border) bg-(--card) p-2">
-              <button
-                type="button"
-                onClick={() => setAcademicsOpen((value) => !value)}
-                className="flex w-full items-center justify-between rounded-lg p-3 font-bold text-sm hover:bg-(--bg-alt)"
-              >
-                Academics
-                <ChevronDown size={16} className={`transition-transform ${academicsOpen ? "rotate-180" : ""}`} />
-              </button>
-              {academicsOpen && (
-                <div className="mt-1 flex flex-col gap-1 pl-2">
-                  {academicItems.map((item) => (
-                    <Link
-                      key={item.label}
-                      to={item.to}
-                      onClick={handleLinkClick}
-                      className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-(--bg-alt)"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </nav>
     </>
   );
