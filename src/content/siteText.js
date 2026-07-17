@@ -84,15 +84,15 @@ const en = {
 
     },
     fromprincipal :{
-      message: "It is with great pride and joy that I welcome you to Pioneers Academy. As an institution dedicated to excellence in education, we stand committed to nurturing not just academic brilliance, but also strong character, critical thinking, and compassionate citizenship.At Pioneers Academy, we believe that every child is unique, with their own talents, interests, and potential. Our mission is to create an environment where these individual strengths can flourish, where curiosity is encouraged, and where students are inspired to dream big and work hard to achieve their goals.Our experienced and dedicated faculty members work tirelessly to provide a learning experience that goes beyond textbooks. We emphasize hands-on learning, collaborative projects, and real-world applications of knowledge. Our state-of-the-art facilities, from modern laboratories to well-equipped libraries, provide students with the tools they need to explore, discover, and excel."
+      message: "It is with great pride and joy that I welcome you to Kailali National School. As an institution dedicated to excellence in education, we stand committed to nurturing not just academic brilliance, but also strong character, critical thinking, and compassionate citizenship.At Kailali National School, we believe that every child is unique, with their own talents, interests, and potential. Our mission is to create an environment where these individual strengths can flourish, where curiosity is encouraged, and where students are inspired to dream big and work hard to achieve their goals.Our experienced and dedicated faculty members work tirelessly to provide a learning experience that goes beyond textbooks. We emphasize hands-on learning, collaborative projects, and real-world applications of knowledge. Our state-of-the-art facilities, from modern laboratories to well-equipped libraries, provide students with the tools they need to explore, discover, and excel."
     },
     
     intro: {
       welcome: "Welcome",
-      title: "Pioneers Academy",
+      title: "Kailali National School",
       welcomeMessage: " Message",
       description:
-        " Established in 1999 AD (2056 BS), Pioneers’ Academy, Kailali is a reputed private educational institution located in Lamkichuha-1, Lamki, Kailali, Sudurpaschim Province, Nepal. The school is affiliated with the National Examination Board (NEB) and approved by the Ministry of Education.Pioneers’ Academy offers comprehensive educational programs from Play Group (PG) to Grade 10, along with Plus Two (Grades 11 and 12) in Management and Law streams.With a commitment to academic excellence, disciplined learning, and holistic development, the academy provides quality education at a moderate fee structure. The institution also offers scholarship opportunities to deserving and talented students, ensuring accessible education for all.",
+        " Established in 1999 AD (2056 BS), Kailali National School, Kailali is a reputed private educational institution located in Lamkichuha-1, Lamki, Kailali, Sudurpaschim Province, Nepal. The school is affiliated with the National Examination Board (NEB) and approved by the Ministry of Education.Kailali National School offers comprehensive educational programs from Play Group (PG) to Grade 10, along with Plus Two (Grades 11 and 12) in Management and Law streams.With a commitment to academic excellence, disciplined learning, and holistic development, the school provides quality education at a moderate fee structure. The institution also offers scholarship opportunities to deserving and talented students, ensuring accessible education for all.",
       students: "Students",
       teachers: "Teachers",
       years: "Years of Excellence",
@@ -268,7 +268,7 @@ const en = {
     cta: {
       title: "Join Our Community",
       description:
-        "Discover how Pioneers Academy can help your child reach their full potential",
+        "Discover how Kailali National School can help your child reach their full potential",
       button: "Contact Us",
     },
   },
@@ -478,7 +478,7 @@ const en = {
     hero: "Our Facilities",
     subtitle: "State-of-the-art infrastructure for holistic development",
     introTitle: "Infrastructure Designed for Excellence",
-    introDesc: "Pioneers Academy is equipped with comprehensive, modern facilities to ensure a holistic and enriching learning experience for all students.",
+    introDesc: "Kailali National School is equipped with comprehensive, modern facilities to ensure a holistic and enriching learning experience for all students.",
     list: {
       classroom: {
         title: "Modern Classrooms",
@@ -692,7 +692,7 @@ Our experienced and dedicated faculty members work tirelessly to provide a learn
 
 But education is not just about academic achievement. We place equal importance on character development, teaching our students the values of integrity, respect, responsibility, and empathy. Through various co-curricular activities, sports programs, and community service initiatives, we ensure that our students grow into well-rounded individuals who can make positive contributions to society.
 
-I encourage all our students to make the most of the opportunities available to them at Pioneers Academy. Be curious, be creative, be courageous. Don't be afraid to ask questions, to challenge yourselves, and to step outside your comfort zones. Remember, success is not just about grades—it's about becoming the best version of yourself.
+I encourage all our students to make the most of the opportunities available to them at Kailali National School. Be curious, be creative, be courageous. Don't be afraid to ask questions, to challenge yourselves, and to step outside your comfort zones. Remember, success is not just about grades—it's about becoming the best version of yourself.
 
 To our parents and guardians, thank you for entrusting us with your children's education. We view our relationship with you as a partnership, and we welcome your involvement in our school community. Together, we can provide the support and guidance our students need to thrive.
 
@@ -914,7 +914,7 @@ With warm regards and best wishes for your success.`,
     error: "Failed to load notices. Please try again later.",
     noNotices: "No notices available",
     noNoticesDetail: "There are no notices available at the moment. Please check back later.",
-    pa: "Pioneers Academy",
+    pa: "Kailali National School",
     readLess: "Read Less",
     readMore: "Read More",
     download: "Download",

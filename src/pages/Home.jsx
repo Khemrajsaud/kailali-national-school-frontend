@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight,
   Award,
@@ -9,19 +9,31 @@ import {
   Building2,
   CalendarDays,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   Coffee,
   Dumbbell,
+  FlaskConical,
   GraduationCap,
-  Image,
   Lightbulb,
   Loader2,
   Monitor,
-  Play,
   Quote,
-  Target,
+  Shield,
+  Star,
+  Trophy,
   Users,
-  FlaskConical,
+  Zap,
+  Music,
+  Globe,
+  Plus,
+  Minus,
+  PlayCircle,
+  MapPin,
+  Phone,
+  Mail,
 } from "lucide-react";
+
 import home from "../assets/images/kailali-home.png";
 import school from "../assets/images/kailali4.jpeg";
 import gallary1 from "../assets/images/kailali1.jpeg";
@@ -29,38 +41,120 @@ import gallary2 from "../assets/images/kailali2.jpeg";
 import gallary3 from "../assets/images/kailali3.jpeg";
 import gallary4 from "../assets/images/kailali4.jpeg";
 import principal from "../assets/images/dummyimage.png";
+import library from "../assets/images/library.jpg";
+import sports from "../assets/images/sport.jpg";
+import music from '../assets/images/music.jpg';
+
 import siteText from "../content/siteText";
 import { apiUrl } from "../config/api";
 import smartclassroom from "../assets/images/smartclassroom.jpg";
 import computerlab from "../assets/images/computerlab.jpg";
 import scienceLab from "../assets/images/sciencelab.jpg";
+import AnimatedCounter from "../components/ui/AnimatedCounter";
+import SectionHeader from "../components/ui/SectionHeader";
 
 const API_URL = apiUrl("/api/news");
 
-const fadeInUp = {
+// Animation presets
+const fadeUp = {
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.15 },
+  transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+};
+
+const stagger = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.6, ease: "easeOut" },
-};
+  viewport: { once: true, amount: 0.15 },
+  transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1], delay },
+});
+
+// ── FAQ Accordion ──────────────────────────────────────────
+const faqs = [
+  {
+    q: "What academic programs are available at Kailali National School?",
+    a: "We offer comprehensive programs from Pre-Primary (Play Group) through Grade 10 (Secondary), along with Plus Two (+2) in Science, Management, and Law streams, affiliated with the National Examination Board (NEB).",
+  },
+  {
+    q: "How can I apply for admission?",
+    a: "You can apply by visiting our Admissions page, filling out the online application form, or visiting our campus directly. Our admissions team is available to guide you through the process.",
+  },
+  {
+    q: "What documents are required for enrollment?",
+    a: "Required documents include: birth certificate, previous school's transfer certificate (TC), mark sheets of the last grade attended, passport-size photos, and parents' citizenship copies.",
+  },
+  {
+    q: "Are scholarships available for deserving students?",
+    a: "Yes, we offer merit-based and need-based scholarships to deserving students. Please contact our admissions office for detailed eligibility criteria and application procedures.",
+  },
+  {
+    q: "What facilities are available for students?",
+    a: "Our campus features modern classrooms with smart boards, fully-equipped science and computer labs, a library, sports facilities, cafeteria, transportation service, and 24/7 CCTV security.",
+  },
+  {
+    q: "Where is Kailali National School located?",
+    a: "We are located at Lamkichuha-1, Lamki, Kailali, Sudurpaschim Province, Nepal. Our campus is easily accessible from the main road and well-connected by transport routes.",
+  },
+];
+
+// ── Testimonials ───────────────────────────────────────────
+const testimonials = [
+  {
+    name: "Priya Sharma",
+    role: "Parent — Grade 8",
+    quote:
+      "The school environment is disciplined, caring, and focused on overall growth. My daughter has flourished both academically and personally. The teachers genuinely care about each child.",
+    rating: 5,
+    avatar: "PS",
+  },
+  {
+    name: "Ramesh Bista",
+    role: "SEE Graduate, 2024",
+    quote:
+      "The teachers guided us closely and made learning feel practical and motivating. I scored a GPA of 3.95 in my SEE exams, and this school's support was instrumental in that achievement.",
+    rating: 5,
+    avatar: "RB",
+  },
+  {
+    name: "Anjali Thapa",
+    role: "Alumni — Batch 2022",
+    quote:
+      "Kailali National School gave me confidence, strong fundamentals, and a clear path forward. The extracurricular activities shaped me into a well-rounded individual ready for the world.",
+    rating: 5,
+    avatar: "AT",
+  },
+  {
+    name: "Krishna Kumar",
+    role: "Parent — Grade 11",
+    quote:
+      "I am impressed by the modern teaching methods and excellent faculty. The +2 program is rigorous and well-structured, preparing students for higher education with confidence.",
+    rating: 5,
+    avatar: "KK",
+  },
+];
 
 const Home = () => {
   const t = siteText;
   const navigate = useNavigate();
-  const marqueeItems = [
-    "Kailali National School",
-    "Admissions Open",
-    "Quality Education",
-    "Future Leaders",
-  ];
-
   const [homeNews, setHomeNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [openFaq, setOpenFaq] = useState(null);
+  const carouselRef = useRef(null);
 
+  // Auto-advance testimonials
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Fetch news
   useEffect(() => {
     const fetchHomeNews = async () => {
       try {
-        setNewsLoading(true);
         const res = await axios.get(API_URL);
         setHomeNews((res.data || []).slice(0, 3));
       } catch (error) {
@@ -69,385 +163,1091 @@ const Home = () => {
         setNewsLoading(false);
       }
     };
-
     fetchHomeNews();
   }, []);
 
   const getPreviewText = (html = "") => {
-    const plainText = html.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
-    return plainText.length <= 150 ? plainText : `${plainText.slice(0, 150)}...`;
+    const plain = html
+      .replace(/<[^>]*>/g, " ")
+      .replace(/&nbsp;/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return plain.length <= 130 ? plain : `${plain.slice(0, 130)}...`;
   };
 
-  const programCards = [
-    { title: "Primary School", image: gallary1, description: t.home.academics.primary.description },
-    { title: "Secondary School", image: gallary2, description: t.home.academics.secondary.description },
-    { title: "+2 Program", image: gallary3, description: t.home.academics.explorePrograms },
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  // ── Why Choose Us cards ────────────────────────────────
+  const whyCards = [
+    {
+      icon: <BookOpen size={22} />,
+      title: "Quality Education",
+      desc: "NEB-affiliated curriculum with modern pedagogical approaches and a focus on deep conceptual understanding.",
+      color: "blue",
+    },
+    {
+      icon: <Users size={22} />,
+      title: "Experienced Teachers",
+      desc: "Our dedicated faculty bring decades of expertise, passion, and mentorship to every classroom experience.",
+      color: "emerald",
+    },
+    {
+      icon: <Monitor size={22} />,
+      title: "Modern Classrooms",
+      desc: "Smart boards, digital tools, and interactive learning environments that inspire curiosity and innovation.",
+      color: "blue",
+    },
+    {
+      icon: <Dumbbell size={22} />,
+      title: "Sports & Activities",
+      desc: "A rich co-curricular program including sports, music, dance, debate, and leadership development activities.",
+      color: "emerald",
+    },
+    {
+      icon: <FlaskConical size={22} />,
+      title: "Computer & Science Labs",
+      desc: "Fully-equipped laboratories for hands-on experimentation, coding, and scientific discovery.",
+      color: "blue",
+    },
+    {
+      icon: <Shield size={22} />,
+      title: "Student Safety",
+      desc: "24/7 CCTV surveillance, trained security staff, and a safe, inclusive, supportive campus environment.",
+      color: "emerald",
+    },
   ];
 
-  const facilityCards = [
-    { title: t.home.facilities.smartClassrooms, image: smartclassroom },
-    { title: t.home.facilities.scienceLabs, image: scienceLab },
-    { title: t.home.facilities.computerLab, image: computerlab },
+  // ── Academic programs ──────────────────────────────────
+  const programs = [
+    {
+      level: "Pre-Primary",
+      tag: "Play Group",
+      img: gallary1,
+      desc: "Play-based, Montessori-inspired early childhood development in a nurturing, colorful environment.",
+      to: "/academic/primary",
+      color: "#2563EB",
+    },
+    {
+      level: "Primary School",
+      tag: "Grades 1–5",
+      img: gallary2,
+      desc: "Strong foundational literacy and numeracy with interactive, activity-based modern learning approaches.",
+      to: "/academic/primary",
+      color: "#10B981",
+    },
+    {
+      level: "Secondary School",
+      tag: "Grades 6–10",
+      img: gallary3,
+      desc: "Rigorous SEE preparation with practical labs, critical thinking, and comprehensive academic support.",
+      to: "/academic/secondary",
+      color: "#2563EB",
+    },
+    {
+      level: "+2 Program",
+      tag: "Grades 11–12",
+      img: gallary4,
+      desc: "Specialized Science, Management & Law streams designed to prepare students for higher education.",
+      to: "/academic/plus-two",
+      color: "#10B981",
+    },
   ];
 
-  const testimonials = [
-    { name: "Student Voice", role: "Grade 10", quote: "The teachers guide us closely and make learning feel practical and motivating." },
-    { name: "Parent Voice", role: "Guardian", quote: "The school environment is disciplined, caring, and focused on overall growth." },
-    { name: "Alumni Voice", role: "Former Student", quote: "The school gave me confidence, strong fundamentals, and a clear path forward." },
-    { name: "Learner Voice", role: "Class 9", quote: "I enjoy the activities, smart learning, and support from teachers every day." },
+  // ── Facilities ────────────────────────────────────────
+  const facilities = [
+    {
+      title: "Smart Classrooms",
+      img: smartclassroom,
+      icon: <Monitor size={18} />,
+    },
+    {
+      title: "Science Labs",
+      img: scienceLab,
+      icon: <FlaskConical size={18} />,
+    },
+    { title: "Computer Lab", img: computerlab, icon: <Monitor size={18} /> },
+    {
+      title: "Library & Resources",
+      img: library,
+      icon: <BookOpen size={18} />,
+    },
+    { title: "Sports Complex", img: sports, icon: <Dumbbell size={18} /> },
+    { title: "Music Room", img: music, icon: <Music size={18} /> },
   ];
 
-  const faqItems = [
-    "What academic programs are available?",
-    "How can I apply for admission?",
-    "What documents are required for enrollment?",
-    "Where is Kailali National School located?",
-  ];
-
-  const leadershipMembers = [
-    { name: "Chairperson", role: "School Leadership" },
-    { name: "Principal", role: "Academic Head" },
-    { name: "Coordinator", role: "Student Support" },
-    { name: "Admin Lead", role: "Administration" },
-    { name: "Advisor", role: "Guidance Team" },
+  // ── Admission steps ───────────────────────────────────
+  const admissionSteps = [
+    {
+      num: "01",
+      title: "Apply Online",
+      desc: "Fill out our online application form with student and parent details.",
+      icon: <BookOpen size={22} />,
+    },
+    {
+      num: "02",
+      title: "Entrance Test",
+      desc: "Appear for the written entrance assessment as per the scheduled date.",
+      icon: <Award size={22} />,
+    },
+    {
+      num: "03",
+      title: "Interview",
+      desc: "Meet with our academic coordinators for a personal interaction session.",
+      icon: <Users size={22} />,
+    },
+    {
+      num: "04",
+      title: "Confirmation",
+      desc: "Receive your admission letter and complete enrollment formalities.",
+      icon: <CheckCircle2 size={22} />,
+    },
   ];
 
   return (
-    <div className="bg-[#f4f8fb] text-(--text) pb-16 transition-colors">
-      <section className="group relative min-h-[84vh] overflow-hidden border-b border-slate-200">
+    <div style={{ background: "var(--bg)", color: "var(--text)" }}>
+      {/* ════════════════════════════════════════════════════════
+          HERO SECTION
+          ════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-screen flex flex-col overflow-hidden group">
+        {/* Background image */}
         <img
           src={home}
-          alt="School building"
-          className="absolute inset-0 h-full w-full object-cover brightness-[0.7] transition-transform duration-1000 group-hover:scale-105"
+          alt="Kailali National School Campus"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[10s] ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-black/85 via-black/50 to-black/10" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(185,23,59,0.28),transparent_28%)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[84vh] max-w-7xl flex-col justify-between px-4 py-6 sm:px-6 sm:py-8 lg:py-10">
-          <div className="flex flex-1 items-center">
-            <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -32 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.75, ease: "easeOut" }}
-                className="max-w-2xl text-white"
+        {/* Overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(10,31,51,0.88) 0%, rgba(16,42,67,0.75) 50%, rgba(16,42,67,0.55) 100%)",
+          }}
+        />
+
+        {/* Decorative floating shapes */}
+        <div className="hero-shape hero-shape-1" />
+        <div className="hero-shape hero-shape-2" />
+        <div className="hero-shape hero-shape-3" />
+
+        {/* Dot grid pattern */}
+        <div
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+
+        {/* Hero Content */}
+        <div className="relative z-10 flex-1 flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 w-full">
+            <div className="max-w-3xl">
+              <motion.h1
+                className="text-display text-white mb-6"
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.75,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.1,
+                }}
               >
-                <div className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-white/90">
-                  Kailali National School
-                </div>
-                <h1 className="mt-5 max-w-xl text-4xl font-black leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
-                  {t.home.hero.title}
-                </h1>
-                <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/88 sm:text-base lg:text-lg">
-                  {t.home.hero.subtitle}
-                </p>
-                
+                Inspiring Young Minds.{" "}
+                <span
+                  style={{
+                    background: "linear-gradient(90deg, #34D399, #10B981)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  Building Bright Futures.
+                </span>
+              </motion.h1>
+
+              <motion.p
+                className="text-lg text-white/75 leading-relaxed max-w-xl mb-10"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.25 }}
+              >
+                We provide quality education that nurtures creativity,
+                leadership, innovation, and lifelong learning in a safe and
+                supportive environment. Established 1999 AD.
+              </motion.p>
+
+              <motion.div
+                className="flex flex-wrap gap-4 mb-14"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <Link to="/admission" className="btn btn-emerald btn-lg">
+                  Enroll Now <ArrowRight size={18} />
+                </Link>
+                <Link to="/academic" className="btn btn-ghost-white btn-lg">
+                  Explore Programs
+                </Link>
               </motion.div>
 
-              
+             
             </div>
           </div>
+        </div>
 
-          <div className="hero-marquee hero-marquee--hero">
-            <div className="hero-marquee-track hero-marquee-track--wide">
-              {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, index) => (
-                <span key={`${item}-${index}`} className="hero-marquee-item hero-marquee-item--hero">
-                  {item}
+        {/* Scroll indicator */}
+        <motion.div
+          className="relative z-10 flex justify-center pb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+        >
+          <div className="flex flex-col items-center gap-1.5">
+            <span className="text-white/40 text-[11px] uppercase tracking-widest font-semibold">
+              Scroll to explore
+            </span>
+            <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
+          </div>
+        </motion.div>
+      </section>
+
+     
+      <section
+        className="relative overflow-hidden py-6"
+        style={{ background: "var(--navy)" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            className="grid grid-cols-2 sm:grid-cols-4 gap-px"
+            style={{ background: "rgba(255,255,255,0.08)" }}
+          >
+            {[
+              { end: 25, suffix: "+", label: "Years of Excellence" },
+              { end: 150, suffix: "+", label: "Expert Teachers" },
+              { end: 3500, suffix: "+", label: "Students Enrolled" },
+              { end: 100, suffix: "%", label: "Board Exam Success" },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                className="flex flex-col items-center justify-center py-8 px-4 text-center"
+                style={{ background: "var(--navy)" }}
+              >
+                <div className="stat-number">
+                  <AnimatedCounter end={stat.end} suffix={stat.suffix} />
+                </div>
+                <div className="text-white/55 text-xs font-semibold uppercase tracking-widest mt-2">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/*
+          ABOUT / INTRO SECTION
+         */}
+      <section className="section-wrapper">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Image collage */}
+          <motion.div {...stagger(0)} className="relative">
+            <div className="grid grid-cols-2 gap-4">
+              <img
+                src={gallary1}
+                alt="Students"
+                className="h-56 w-full rounded-2xl object-cover shadow-lg"
+              />
+              <img
+                src={gallary2}
+                alt="Classroom"
+                className="h-56 w-full rounded-2xl object-cover shadow-lg mt-8"
+              />
+              <img
+                src={gallary3}
+                alt="Activities"
+                className="h-56 w-full rounded-2xl object-cover shadow-lg -mt-4"
+              />
+              <img
+                src={school}
+                alt="Campus"
+                className="h-56 w-full rounded-2xl object-cover shadow-lg mt-4"
+              />
+            </div>
+           
+          </motion.div>
+
+          {/* Text */}
+          <motion.div {...stagger(0.15)}>
+            <span className="pill-badge pill-badge--navy mb-4 inline-flex">
+              About Our School
+            </span>
+            <h2 className="text-h1 text-[--text] mt-3 mb-5">
+              Where Education Meets{" "}
+              <span style={{ color: "var(--blue)" }}>Excellence</span>
+            </h2>
+            <p className="text-[--text-sec] leading-relaxed mb-6 text-[15px]">
+              Established in 1999 AD (2056 BS), Kailali National School is a
+              reputed private educational institution located in Lamkichuha-1,
+              Lamki, Kailali, Sudurpaschim Province, Nepal. Affiliated with the
+              National Examination Board (NEB) and approved by the Ministry of
+              Education.
+            </p>
+            <p className="text-[--text-sec] leading-relaxed mb-8 text-[15px]">
+              We offer comprehensive programs from Play Group to Grade 12, in
+              Science, Management, and Law streams. With a commitment to
+              academic excellence and holistic development, we provide quality
+              education with scholarship opportunities for deserving students.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+              {[
+                "NEB Affiliated & Ministry Approved",
+                "Scholarship Opportunities Available",
+                "Play Group to +2 (Grade 12)",
+                "Science, Management & Law Streams",
+                "Experienced & Dedicated Faculty",
+                "Modern Infrastructure & Smart Labs",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-2.5">
+                  <CheckCircle2
+                    size={16}
+                    className="shrink-0 mt-0.5"
+                    style={{ color: "var(--emerald)" }}
+                  />
+                  <span className="text-sm text-[--text-sec] font-medium">
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link to="/about" className="btn btn-primary">
+                Learn More <ArrowRight size={16} />
+              </Link>
+              <Link to="/contact" className="btn btn-secondary">
+                Contact Us
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          WHY CHOOSE US
+          ════════════════════════════════════════════════════════ */}
+      <section
+        className="py-20 sm:py-24"
+        style={{ background: "var(--bg-alt)" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            badge="Why Choose Us"
+            title={
+              <>
+                What Makes Kailali National{" "}
+                <span style={{ color: "var(--blue)" }}>the Best Choice</span>
+              </>
+            }
+            subtitle="Our school blends academic excellence, character building, and modern learning spaces to help every student grow with confidence and purpose."
+            className="mb-14"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {whyCards.map((card, i) => (
+              <motion.div
+                key={card.title}
+                {...stagger(i * 0.08)}
+                className="card p-6 hover-lift group cursor-default"
+              >
+                <div
+                  className={`icon-box ${card.color === "blue" ? "icon-box--blue" : "icon-box--emerald"} mb-5 transition-all duration-300 group-hover:scale-110`}
+                >
+                  {card.icon}
+                </div>
+                <h3
+                  className="font-bold text-[--text] mb-2.5"
+                  style={{
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontSize: "1rem",
+                  }}
+                >
+                  {card.title}
+                </h3>
+                <p className="text-sm text-[--text-sec] leading-relaxed">
+                  {card.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          ACADEMIC PROGRAMS
+          ════════════════════════════════════════════════════════ */}
+      <section className="section-wrapper">
+        <SectionHeader
+          badge="Academic Excellence"
+          title="Our Academic Programs"
+          subtitle="A strong foundation from early childhood through higher secondary education, designed for every learner's journey."
+          className="mb-14"
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {programs.map((prog, i) => (
+            <motion.article
+              key={prog.level}
+              {...stagger(i * 0.1)}
+              className="group relative overflow-hidden rounded-2xl cursor-pointer hover-lift"
+              onClick={() => navigate(prog.to)}
+            >
+              <div className="relative h-64 overflow-hidden">
+                <img
+                  src={prog.img}
+                  alt={prog.level}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(10,31,51,0.92) 0%, rgba(10,31,51,0.4) 60%, transparent 100%)",
+                  }}
+                />
+              </div>
+
+              <div className="absolute inset-0 flex flex-col justify-end p-5">
+                <span
+                  className="inline-flex w-fit items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-white mb-2"
+                  style={{ background: prog.color }}
+                >
+                  {prog.tag}
                 </span>
+                <h3
+                  className="text-white font-bold text-lg mb-1.5"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                >
+                  {prog.level}
+                </h3>
+                <p className="text-white/70 text-xs leading-relaxed mb-3">
+                  {prog.desc}
+                </p>
+                <div className="flex items-center gap-1.5 text-white/80 text-xs font-semibold group-hover:text-white transition-colors">
+                  Learn More{" "}
+                  <ArrowRight
+                    size={13}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link to="/academic" className="btn btn-secondary">
+            View All Programs <ArrowRight size={16} />
+          </Link>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          PRINCIPAL'S MESSAGE
+          ════════════════════════════════════════════════════════ */}
+      <section
+        className="py-20 sm:py-24 overflow-hidden"
+        style={{ background: "var(--bg-alt)" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Image */}
+            <motion.div {...stagger(0)} className="relative order-2 lg:order-1">
+              <div
+                className="absolute inset-0 rounded-3xl translate-x-4 translate-y-4 opacity-20"
+                style={{ background: "var(--blue)" }}
+              />
+              <img
+                src={principal}
+                alt="Principal"
+                className="relative w-full max-h-[480px] rounded-3xl object-cover shadow-xl"
+              />
+              {/* Name card */}
+              <div className="absolute -bottom-5 left-6 bg-white rounded-2xl px-5 py-3.5 shadow-xl border border-[--border]">
+                <div
+                  className="font-bold text-[--text]"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                >
+                  School Principal
+                </div>
+                <div className="text-[--text-sec] text-xs mt-0.5">
+                  Kailali National School
+                </div>
+               
+              </div>
+            </motion.div>
+
+            {/* Message */}
+            <motion.div {...stagger(0.2)} className="order-1 lg:order-2">
+              <span className="pill-badge pill-badge--navy mb-4 inline-flex">
+                Principal's Message
+              </span>
+              <h2 className="text-h1 text-[--text] mt-3 mb-6">
+                A Message of{" "}
+                <span style={{ color: "var(--blue)" }}>Inspiration</span>
+              </h2>
+
+              <div
+                className="relative p-6 rounded-2xl mb-6"
+                style={{
+                  background: "rgba(37,99,235,0.04)",
+                  border: "1px solid rgba(37,99,235,0.12)",
+                }}
+              >
+                <Quote
+                  size={32}
+                  className="absolute -top-4 -left-2 opacity-20"
+                  style={{ color: "var(--blue)" }}
+                />
+                <p className="text-[--text-sec] text-[15px] leading-relaxed italic">
+                  "It is with great pride and joy that I welcome you to Kailali
+                  National School. We stand committed to nurturing not just
+                  academic brilliance, but also strong character, critical
+                  thinking, and compassionate citizenship. Every child is
+                  unique, and our mission is to create an environment where
+                  individual strengths can flourish."
+                </p>
+              </div>
+
+              <p className="text-[--text-sec] text-[15px] leading-relaxed mb-6">
+                Our experienced faculty work tirelessly to provide learning that
+                goes beyond textbooks — hands-on projects, real-world
+                applications, and a culture of curiosity. We believe success is
+                not just about grades, but about becoming the best version of
+                yourself.
+              </p>
+
+              <div
+                className="font-bold text-[--navy] text-lg"
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontStyle: "italic",
+                }}
+              >
+                — Principal, Kailali National School
+              </div>
+
+             
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          CAMPUS FACILITIES
+          ════════════════════════════════════════════════════════ */}
+      <section className="section-wrapper">
+        <SectionHeader
+          badge="Campus Facilities"
+          title="World-Class Facilities for Every Learner"
+          subtitle="Our state-of-the-art infrastructure is thoughtfully designed to support academic, creative, and physical development."
+          className="mb-14"
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {facilities.map((facility, i) => (
+            <motion.div
+              key={facility.title}
+              {...stagger(i * 0.08)}
+              className="img-card h-64 cursor-pointer group"
+              onClick={() => navigate("/facilities")}
+            >
+              <img src={facility.img} alt={facility.title} />
+              <div className="img-card-overlay" />
+              <div className="absolute inset-x-0 bottom-0 p-5">
+                <div className="flex items-center gap-2.5 text-white">
+                  <div
+                    className="p-2 rounded-lg"
+                    style={{
+                      background: "rgba(37,99,235,0.6)",
+                      backdropFilter: "blur(8px)",
+                    }}
+                  >
+                    {facility.icon}
+                  </div>
+                  <span
+                    className="font-bold text-[15px]"
+                    style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  >
+                    {facility.title}
+                  </span>
+                </div>
+                <p className="text-white/70 text-xs mt-1.5 ml-0.5">
+                  Modern spaces for better learning experiences.
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link to="/facilities" className="btn btn-secondary">
+            Explore All Facilities <ArrowRight size={16} />
+          </Link>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          SCHOOL GALLERY
+          ════════════════════════════════════════════════════════ */}
+      <section
+        className="py-20 sm:py-24"
+        style={{ background: "var(--bg-alt)" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            badge="School Gallery"
+            title="A Glimpse of Life at Kailali National School"
+            subtitle="Explore vibrant campus moments  classrooms, labs, sports, events, and everything in between."
+            className="mb-14"
+          />
+
+          {/* Masonry-style grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-auto">
+            <motion.div
+              {...stagger(0)}
+              className="img-card lg:row-span-2"
+              style={{ height: "320px" }}
+            >
+              <img src={gallary1} alt="Students" className="!h-full" />
+              <div className="img-card-overlay" />
+              <div className="absolute bottom-4 left-4 text-white text-xs font-semibold">
+                Students & Learning
+              </div>
+            </motion.div>
+            <motion.div
+              {...stagger(0.1)}
+              className="img-card"
+              style={{ height: "152px" }}
+            >
+              <img src={gallary2} alt="Labs" className="!h-full" />
+              <div className="img-card-overlay" />
+            </motion.div>
+            <motion.div
+              {...stagger(0.15)}
+              className="img-card lg:row-span-2"
+              style={{ height: "320px" }}
+            >
+              <img src={principal} alt="Campus" className="!h-full" />
+              <div className="img-card-overlay" />
+            </motion.div>
+            <motion.div
+              {...stagger(0.2)}
+              className="img-card"
+              style={{ height: "152px" }}
+            >
+              <img src={gallary3} alt="Sports" className="!h-full" />
+              <div className="img-card-overlay" />
+            </motion.div>
+            <motion.div
+              {...stagger(0.1)}
+              className="img-card"
+              style={{ height: "152px" }}
+            >
+              <img src={smartclassroom} alt="Smart Class" className="!h-full" />
+              <div className="img-card-overlay" />
+            </motion.div>
+            <motion.div
+              {...stagger(0.2)}
+              className="img-card"
+              style={{ height: "152px" }}
+            >
+              <img src={gallary4} alt="Events" className="!h-full" />
+              <div className="img-card-overlay" />
+            </motion.div>
+            <motion.div
+              {...stagger(0.25)}
+              className="img-card"
+              style={{ height: "152px" }}
+            >
+              <img src={computerlab} alt="Computer Lab" className="!h-full" />
+              <div className="img-card-overlay" />
+            </motion.div>
+          </div>
+
+          <div className="text-center mt-10">
+            <button
+              onClick={() => navigate("/resources/gallery")}
+              className="btn btn-primary"
+            >
+              View Full Gallery <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          LATEST NEWS
+          ════════════════════════════════════════════════════════ */}
+      <section className="section-wrapper">
+        <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
+          <SectionHeader
+            badge="Latest Updates"
+            title={
+              <>
+                News & <span style={{ color: "var(--blue)" }}>Articles</span>
+              </>
+            }
+            subtitle="Stay informed with the latest school news, announcements, and stories from our community."
+            center={false}
+          />
+          <Link to="/resources/news" className="btn btn-secondary shrink-0">
+            View All News <ArrowRight size={15} />
+          </Link>
+        </div>
+
+        {newsLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="rounded-2xl overflow-hidden">
+                <div className="skeleton h-48 w-full" />
+                <div className="p-5 space-y-3">
+                  <div className="skeleton h-4 w-1/3 rounded" />
+                  <div className="skeleton h-5 w-full rounded" />
+                  <div className="skeleton h-4 w-4/5 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : homeNews.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {homeNews.map((news, i) => (
+              <motion.article
+                key={news._id || news.id || i}
+                {...stagger(i * 0.1)}
+                className="card overflow-hidden group cursor-pointer"
+                onClick={() => navigate(`/news/${news._id || news.id}`)}
+              >
+                {news.image && (
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={news.image}
+                      alt={news.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span
+                        className="px-2.5 py-1 rounded-full text-xs font-bold text-white"
+                        style={{ background: "var(--blue)" }}
+                      >
+                        {news.category || "News"}
+                      </span>
+                    </div>
+                  </div>
+                )}
+                <div className="p-5">
+                  <div className="flex items-center gap-2 text-[--text-muted] text-xs mb-3">
+                    <CalendarDays size={12} />
+                    {formatDate(news.createdAt || news.date)}
+                  </div>
+                  <h3
+                    className="font-bold text-[--text] mb-2 group-hover:text-[--blue] transition-colors leading-snug"
+                    style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  >
+                    {news.title}
+                  </h3>
+                  <p className="text-sm text-[--text-sec] leading-relaxed mb-4">
+                    {getPreviewText(news.content || news.body || "")}
+                  </p>
+                  <div className="flex items-center gap-1.5 text-[--blue] text-sm font-semibold">
+                    Read Full Story{" "}
+                    <ArrowRight
+                      size={14}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 text-[--text-sec]">
+            <BookOpen size={40} className="mx-auto mb-4 opacity-30" />
+            <p>No news available yet. Check back soon!</p>
+          </div>
+        )}
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          TESTIMONIALS
+          ════════════════════════════════════════════════════════ */}
+      <section
+        className="py-20 sm:py-24 overflow-hidden"
+        style={{ background: "var(--navy)" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+           
+            title={
+              <>
+                What Our{" "}
+                <span style={{ color: "var(--emerald)" }}>Community Says</span>
+              </>
+            }
+            subtitle="Hear from the parents, students, and alumni who are part of the Kailali National School family."
+            light
+            className="mb-14"
+          />
+
+          <div className="relative max-w-3xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTestimonial}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.4 }}
+                className="testimonial-card text-center"
+              >
+                <div className="quote-mark">"</div>
+                <p className="text-[--text-sec] text-[15px] sm:text-[17px] leading-relaxed mb-8 italic">
+                  {testimonials[activeTestimonial].quote}
+                </p>
+
+                <div className="flex justify-center gap-1 mb-5">
+                  {[...Array(testimonials[activeTestimonial].rating)].map(
+                    (_, i) => (
+                      <Star
+                        key={i}
+                        size={16}
+                        className="text-yellow-400 fill-yellow-400"
+                      />
+                    ),
+                  )}
+                </div>
+
+                <div className="flex items-center justify-center gap-3">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, var(--blue), var(--navy))",
+                    }}
+                  >
+                    {testimonials[activeTestimonial].avatar}
+                  </div>
+                  <div className="text-left">
+                    <div
+                      className="font-bold text-[--text]"
+                      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                    >
+                      {testimonials[activeTestimonial].name}
+                    </div>
+                    <div className="text-[--text-sec] text-sm">
+                      {testimonials[activeTestimonial].role}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <button
+                onClick={() =>
+                  setActiveTestimonial(
+                    (p) => (p - 1 + testimonials.length) % testimonials.length,
+                  )
+                }
+                className="w-10 h-10 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <div className="flex gap-2">
+                {testimonials.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveTestimonial(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      i === activeTestimonial
+                        ? "w-8 bg-[--emerald]"
+                        : "w-2 bg-white/25"
+                    }`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() =>
+                  setActiveTestimonial((p) => (p + 1) % testimonials.length)
+                }
+                className="w-10 h-10 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          ADMISSION PROCESS
+          ════════════════════════════════════════════════════════ */}
+      <section className="section-wrapper">
+        <SectionHeader
+          badge="Admission Process"
+          title="Simple Steps to Join Our School"
+          subtitle="Our transparent, student-friendly admission process makes it easy for every family to apply and enroll."
+          className="mb-16"
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+          {/* Connector line (desktop) */}
+          <div
+            className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-0.5"
+            style={{
+              background:
+                "linear-gradient(90deg, var(--blue), var(--emerald), var(--blue))",
+              opacity: 0.3,
+            }}
+          />
+
+          {admissionSteps.map((step, i) => (
+            <motion.div
+              key={step.num}
+              {...stagger(i * 0.1)}
+              className="flex flex-col items-center text-center group"
+            >
+              <div className="relative mb-5">
+                {/* Step circle */}
+                <div
+                  className="w-16 h-16 rounded-full flex items-center justify-center text-white font-black text-xl relative z-10 transition-transform duration-300 group-hover:scale-110"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, var(--blue) 0%, var(--navy) 100%)",
+                    boxShadow: "var(--shadow-blue)",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  }}
+                >
+                  {step.num}
+                </div>
+                {/* Ring */}
+                <div
+                  className="absolute inset-0 rounded-full scale-125 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ border: "2px solid rgba(37,99,235,0.3)" }}
+                />
+              </div>
+
+              <div className="icon-box icon-box--blue mb-3 transition-all duration-300 group-hover:scale-105">
+                {step.icon}
+              </div>
+
+              <h3
+                className="font-bold text-[--text] mb-2"
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: "1rem",
+                }}
+              >
+                {step.title}
+              </h3>
+              <p className="text-sm text-[--text-sec] leading-relaxed">
+                {step.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Link to="/admission" className="btn btn-primary btn-lg">
+            Start Your Application <ArrowRight size={18} />
+          </Link>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          FAQ
+          ════════════════════════════════════════════════════════ */}
+      <section
+        className="py-20 sm:py-24"
+        style={{ background: "var(--bg-alt)" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Left: text */}
+            <motion.div {...stagger(0)} className="lg:sticky lg:top-32">
+              <span className="pill-badge pill-badge--navy mb-4 inline-flex">
+                FAQ
+              </span>
+              <h2 className="text-h1 text-[--text] mt-3 mb-5">
+                Frequently Asked{" "}
+                <span style={{ color: "var(--blue)" }}>Questions</span>
+              </h2>
+              <p className="text-[--text-sec] text-[15px] leading-relaxed mb-8">
+                Can't find an answer here? Our admissions team is happy to help
+                you with any questions about enrollment, programs, or campus
+                life.
+              </p>
+              <Link to="/contact" className="btn btn-primary">
+                Contact Admissions <ArrowRight size={16} />
+              </Link>
+
+              {/* Decorative image */}
+              <div className="mt-10 rounded-2xl overflow-hidden shadow-lg hidden lg:block">
+                <img
+                  src={school}
+                  alt="School campus"
+                  className="w-full h-48 object-cover"
+                />
+              </div>
+            </motion.div>
+
+            {/* Right: accordion */}
+            <div className="space-y-3">
+              {faqs.map((faq, i) => (
+                <motion.div
+                  key={i}
+                  {...stagger(i * 0.06)}
+                  className={`accordion-item ${openFaq === i ? "open" : ""}`}
+                >
+                  <button
+                    className="accordion-trigger"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    aria-expanded={openFaq === i}
+                  >
+                    <span>{faq.q}</span>
+                    <span className="accordion-icon">
+                      {openFaq === i ? <Minus size={14} /> : <Plus size={14} />}
+                    </span>
+                  </button>
+                  <AnimatePresence>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ overflow: "hidden" }}
+                      >
+                        <div className="accordion-content">{faq.a}</div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      <main className="mx-auto max-w-7xl space-y-12 px-4 py-10 sm:space-y-16 sm:px-6 sm:py-14" id="about-preview">
-        <motion.section
-          className="grid grid-cols-1 items-center gap-8 rounded-3xl bg-[#1f5a78] p-6 text-white shadow-xl md:grid-cols-2 md:gap-12 sm:p-8"
-          {...fadeInUp}
-        >
-          <div className="space-y-5">
-            <div className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-white/90">
-              About Us
-            </div>
-            <h2 className="text-2xl font-bold leading-tight tracking-tight sm:text-3xl md:text-4xl">
-              {t.home.intro.welcome} <span className="text-white/95">{t.home.intro.welcomeMessage}</span>
-            </h2>
-            <p className="text-sm leading-relaxed text-white/88 opacity-90 sm:text-base text-justify">
-              {t.home.intro.description}
-            </p>
-            <Link
-              to="/about"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-[#1f5a78] shadow-lg"
-            >
-              ABOUT US <ArrowRight size={16} />
-            </Link>
-          </div>
-          <div>
-            <img src={school} alt="School campus" className="h-80 w-full rounded-3xl object-cover shadow-xl" />
-          </div>
-        </motion.section>
-
-        <motion.section className="grid grid-cols-1 gap-4 sm:grid-cols-3" {...fadeInUp}>
-          {[
-            { id: 1, val: "1,000+", label: t.home.intro.students, icon: <Users size={28} />, delay: 0 },
-            { id: 2, val: "100%", label: t.home.intro.statsLabels.excellence, icon: <Award size={28} />, delay: 0.1 },
-            { id: 3, val: "20+", label: t.home.intro.years, icon: <CalendarDays size={28} />, delay: 0.2 },
-          ].map((stat) => (
-            <motion.div
-              key={stat.id}
-              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:shadow-md border-b-4 border-b-[#b0173b]/30"
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: stat.delay }}
-            >
-              <div className="flex items-center gap-5">
-                <div className="rounded-xl bg-[#b0173b]/10 p-4 text-[#b0173b] shadow-inner">
-                  {stat.icon}
-                </div>
-                <div>
-                  <div className="text-3xl font-bold tracking-tight">{stat.val}</div>
-                  <div className="text-sm font-semibold uppercase tracking-wider text-slate-500">{stat.label}</div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.section>
-
-        <motion.section
-          className="overflow-hidden rounded-3xl bg-[#b0173b] p-6 text-white shadow-xl sm:p-8"
-          {...fadeInUp}
-        >
-          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:p-2">
-            <div>
-              <div className="inline-flex items-center rounded-full bg-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.25em]">
-                Serve Quality Education
-              </div>
-              <h3 className="mt-5 text-2xl font-black sm:text-3xl">Our Mission and Vision</h3>
-              <div className="mt-6 grid gap-4">
-                <div className="rounded-2xl bg-white/10 p-5">
-                  <h4 className="font-bold">Our Mission</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-white/90">{t.home.mission.description}</p>
-                </div>
-                <div className="rounded-2xl bg-white/10 p-5">
-                  <h4 className="font-bold">Our Vision</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-white/90">{t.home.vision.description}</p>
-                </div>
-              </div>
-            </div>
-            <img src={school} alt="Mission section" className="h-72 w-full rounded-2xl object-cover shadow-lg" />
-          </div>
-        </motion.section>
-
-        <motion.section {...fadeInUp}>
-          <div className="mb-10 text-center">
-            <div className="inline-flex items-center rounded-full border border-[#1f5a78]/15 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1f5a78] shadow-sm">
-              NEB & TU Affiliated Programs
-            </div>
-            <h2 className="mt-4 mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Our Academic Programs
-            </h2>
-            <p className="mx-auto max-w-3xl text-sm text-slate-600 opacity-90 sm:text-base">
-              A strong foundation from the early grades through higher secondary education.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {programCards.map((program, idx) => (
-              <motion.article
-                key={program.title}
-                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-xl"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                whileHover={{ y: -8 }}
-              >
-                <div className="relative h-56 overflow-hidden">
-                  <img src={program.image} alt={program.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-x-0 bottom-0 bg-[#b0173b] px-4 py-3 text-sm font-bold text-white">
-                    {program.title}
-                  </div>
-                </div>
-                <div className="p-5">
-                  <p className="text-sm leading-relaxed text-slate-600">{program.description}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </motion.section>
-
-        <motion.section {...fadeInUp}>
-          <div className="mb-10 text-center">
-            <div className="inline-flex items-center rounded-full border border-[#1f5a78]/15 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1f5a78] shadow-sm">
-              College Facilities
-            </div>
-            <h2 className="mt-4 mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Facilities at Kailali National School
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {facilityCards.map((facility, idx) => (
-              <motion.article
-                key={facility.title}
-                className="group relative overflow-hidden rounded-2xl shadow-lg"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-              >
-                <img src={facility.image} alt={facility.title} className="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/10 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                  <div className="text-lg font-bold">{facility.title}</div>
-                  <p className="mt-1 text-xs text-white/80">Modern spaces for better learning.</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </motion.section>
-
-        <motion.section className="overflow-hidden rounded-3xl bg-[#b0173b] p-6 text-white shadow-xl sm:p-8" {...fadeInUp}>
-          <div className="mb-6 text-center">
-            <div className="inline-flex items-center rounded-full bg-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.28em]">
-              Experience Beyond the Classroom
-            </div>
-            <h2 className="mt-4 text-2xl font-black sm:text-3xl">Experience Kailali National School</h2>
-          </div>
-          <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-black/25">
-            <img src={school} alt="School event" className="h-104 w-full object-cover opacity-90" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <button className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white text-[#b0173b] shadow-xl">
-                <Play size={24} fill="currentColor" />
-              </button>
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]" {...fadeInUp}>
-          <div className="grid grid-cols-2 gap-4">
-            <img src={principal} alt="Students" className="h-60 w-full rounded-2xl object-cover shadow-lg" />
-            <img src={gallary2} alt="Classroom" className="h-60 w-full rounded-2xl object-cover shadow-lg" />
-            <img src={gallary3} alt="Activities" className="h-60 w-full rounded-2xl object-cover shadow-lg" />
-            <img src={gallary4} alt="Campus" className="h-60 w-full rounded-2xl object-cover shadow-lg" />
-          </div>
-          <div>
-            <div className="inline-flex items-center rounded-full border border-[#1f5a78]/15 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1f5a78] shadow-sm">
-              Why Choose Us
-            </div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">What Makes Kailali the Best Choice</h2>
-            <p className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-              Our school blends academic excellence, character building, and modern learning spaces to help every student grow with confidence.
-            </p>
-            <div className="mt-6 space-y-4">
-              {[
-                "Strong academic support and guidance",
-                "Modern classrooms, labs, and facilities",
-                "Balanced learning with discipline and care",
-                "Activities that build leadership and confidence",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-1 shrink-0 text-[#b0173b]" size={18} />
-                  <span className="text-sm text-slate-700">{item}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6">
-              <button onClick={() => navigate("/about")} className="inline-flex items-center gap-2 rounded-full border border-[#1f5a78] px-6 py-3 text-sm font-bold text-[#1f5a78]">
-                Learn More <ArrowRight size={16} />
-              </button>
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section className="bg-[#1f5a78] rounded-3xl p-6 text-white shadow-xl sm:p-8" {...fadeInUp}>
-          <div className="mb-8 text-center">
-            <div className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.28em]">
-              What Students Say
-            </div>
-            <h2 className="mt-4 text-2xl font-black sm:text-3xl">What Student Say About Kailali National School</h2>
-          </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-            {testimonials.map((item, idx) => (
-              <div key={item.name} className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white font-black text-[#1f5a78]">{idx + 1}</div>
-                <Quote className="mb-3 text-white/70" size={20} />
-                <p className="text-sm leading-relaxed text-white/90">{item.quote}</p>
-                <div className="mt-4 text-sm font-bold">{item.name}</div>
-                <div className="text-xs text-white/70">{item.role}</div>
-              </div>
-            ))}
-          </div>
-        </motion.section>
-
-       
-
-        <motion.section {...fadeInUp}>
-          <div className="mb-10 text-center">
-            <div className="inline-flex items-center rounded-full border border-[#1f5a78]/15 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1f5a78] shadow-sm">
-              CAMPUS GALLERY
-            </div>
-            <h2 className="mt-4 mb-4 text-3xl font-bold tracking-tight sm:text-4xl">A Glimpse of Student Life at Kailali National School</h2>
-          </div>
-
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 lg:grid-cols-3">
-            <div className="grid grid-cols-2 gap-4 lg:col-span-2">
-              <div className="col-span-1">
-                <img src={gallary1} alt="Students working" className="h-44 w-full rounded-2xl object-cover shadow-lg transition-transform duration-700 group-hover:scale-105 sm:h-56" />
-              </div>
-              <div className="col-span-1">
-                <img src={gallary2} alt="Lab work" className="h-44 w-full rounded-2xl object-cover shadow-lg transition-transform duration-700 group-hover:scale-105 sm:h-56" />
-              </div>
-
-              <div className="col-span-1">
-                <img src={gallary3} alt="Sports" className="h-44 w-full rounded-2xl object-cover shadow-lg transition-transform duration-700 group-hover:scale-105 sm:h-56" />
-              </div>
-              <div className="col-span-1">
-                <img src={gallary4} alt="Campus activities" className="h-44 w-full rounded-2xl object-cover shadow-lg transition-transform duration-700 group-hover:scale-105 sm:h-56" />
-              </div>
-            </div>
-
-            <div className="flex items-stretch">
-              <img src={principal} alt="Student portrait" className="hidden w-full rounded-2xl object-cover shadow-lg lg:block lg:h-140" />
-            </div>
-          </div>
-
-          <div className="mt-8 flex justify-center">
-            <button
-              onClick={() => navigate("/resources/gallery")}
-              className="inline-flex items-center gap-3 rounded-full bg-[#b0173b] px-6 py-3 text-sm font-bold text-white shadow-lg hover:shadow-2xl"
-            >
-              <ArrowRight size={16} />
-              EXPLORE MORE
-            </button>
-          </div>
-        </motion.section>
-
-     
-        <motion.section className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[0.95fr_1.05fr]" {...fadeInUp}>
-          <div>
-            <img src={principal} alt="School life" className="h-112 w-full rounded-3xl object-cover shadow-lg" />
-          </div>
-          <div>
-            <div className="inline-flex items-center rounded-full border border-[#1f5a78]/15 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1f5a78] shadow-sm">
-              Frequently Asked Questions
-            </div>
-            <h2 className="mt-4 mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Questions about Admission</h2>
-            <div className="space-y-3">
-              {faqItems.map((question) => (
-                <div key={question} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="font-semibold text-slate-800">{question}</p>
-                    <span className="text-xl text-[#1f5a78]">+</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.section>
-
-        
-      </main>
     </div>
   );
 };
