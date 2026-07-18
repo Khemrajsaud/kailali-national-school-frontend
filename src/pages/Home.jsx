@@ -399,28 +399,15 @@ const Home = () => {
                 </Link>
               </motion.div>
 
-             
+
             </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="relative z-10 flex justify-center pb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-        >
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="text-white/40 text-[11px] uppercase tracking-widest font-semibold">
-              Scroll to explore
-            </span>
-            <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
-          </div>
-        </motion.div>
+
       </section>
 
-     
+
       <section
         className="relative overflow-hidden py-6"
         style={{ background: "var(--navy)" }}
@@ -482,7 +469,7 @@ const Home = () => {
                 className="h-56 w-full rounded-2xl object-cover shadow-lg mt-4"
               />
             </div>
-           
+
           </motion.div>
 
           {/* Text */}
@@ -692,7 +679,7 @@ const Home = () => {
                 <div className="text-[--text-sec] text-xs mt-0.5">
                   Kailali National School
                 </div>
-               
+
               </div>
             </motion.div>
 
@@ -746,7 +733,7 @@ const Home = () => {
                 — Principal, Kailali National School
               </div>
 
-             
+
             </motion.div>
           </div>
         </div>
@@ -822,7 +809,7 @@ const Home = () => {
           />
 
           {/* Masonry-style grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-auto">
             <motion.div
               {...stagger(0)}
               className="img-card lg:row-span-2"
@@ -916,7 +903,7 @@ const Home = () => {
         </div>
 
         {newsLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
               <div key={i} className="rounded-2xl overflow-hidden">
                 <div className="skeleton h-48 w-full" />
@@ -937,23 +924,37 @@ const Home = () => {
                 className="card overflow-hidden group cursor-pointer"
                 onClick={() => navigate(`/news/${news._id || news.id}`)}
               >
-                {news.image && (
-                  <div className="relative h-48 overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
+                  {(news.image_url || news.image) ? (
                     <img
-                      src={news.image}
+                      src={news.image_url || news.image}
                       alt={news.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      loading="lazy"
                     />
-                    <div className="absolute top-3 left-3">
-                      <span
-                        className="px-2.5 py-1 rounded-full text-xs font-bold text-white"
-                        style={{ background: "var(--blue)" }}
-                      >
-                        {news.category || "News"}
-                      </span>
+                  ) : (
+                    <div
+                      className="w-full h-full flex items-center justify-center"
+                      style={{ background: "var(--bg-alt)" }}
+                    >
+                      <BookOpen size={48} style={{ color: "var(--text-muted)", opacity: 0.3 }} />
                     </div>
+                  )}
+                  <div className="absolute top-3 left-3">
+                    <span
+                      className="px-2.5 py-1 rounded-full text-xs font-bold text-white"
+                      style={{ background: "var(--blue)" }}
+                    >
+                      {news.category || "News"}
+                    </span>
                   </div>
-                )}
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background: "linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 50%)",
+                    }}
+                  />
+                </div>
                 <div className="p-5">
                   <div className="flex items-center gap-2 text-[--text-muted] text-xs mb-3">
                     <CalendarDays size={12} />
@@ -996,7 +997,7 @@ const Home = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
-           
+
             title={
               <>
                 What Our{" "}
@@ -1077,11 +1078,10 @@ const Home = () => {
                   <button
                     key={i}
                     onClick={() => setActiveTestimonial(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      i === activeTestimonial
-                        ? "w-8 bg-[--emerald]"
-                        : "w-2 bg-white/25"
-                    }`}
+                    className={`h-2 rounded-full transition-all duration-300 ${i === activeTestimonial
+                      ? "w-8 bg-[--emerald]"
+                      : "w-2 bg-white/25"
+                      }`}
                   />
                 ))}
               </div>
@@ -1098,80 +1098,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          ADMISSION PROCESS
-          ════════════════════════════════════════════════════════ */}
-      <section className="section-wrapper">
-        <SectionHeader
-          badge="Admission Process"
-          title="Simple Steps to Join Our School"
-          subtitle="Our transparent, student-friendly admission process makes it easy for every family to apply and enroll."
-          className="mb-16"
-        />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-          {/* Connector line (desktop) */}
-          <div
-            className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-0.5"
-            style={{
-              background:
-                "linear-gradient(90deg, var(--blue), var(--emerald), var(--blue))",
-              opacity: 0.3,
-            }}
-          />
-
-          {admissionSteps.map((step, i) => (
-            <motion.div
-              key={step.num}
-              {...stagger(i * 0.1)}
-              className="flex flex-col items-center text-center group"
-            >
-              <div className="relative mb-5">
-                {/* Step circle */}
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center text-white font-black text-xl relative z-10 transition-transform duration-300 group-hover:scale-110"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, var(--blue) 0%, var(--navy) 100%)",
-                    boxShadow: "var(--shadow-blue)",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  }}
-                >
-                  {step.num}
-                </div>
-                {/* Ring */}
-                <div
-                  className="absolute inset-0 rounded-full scale-125 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ border: "2px solid rgba(37,99,235,0.3)" }}
-                />
-              </div>
-
-              <div className="icon-box icon-box--blue mb-3 transition-all duration-300 group-hover:scale-105">
-                {step.icon}
-              </div>
-
-              <h3
-                className="font-bold text-[--text] mb-2"
-                style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontSize: "1rem",
-                }}
-              >
-                {step.title}
-              </h3>
-              <p className="text-sm text-[--text-sec] leading-relaxed">
-                {step.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Link to="/admission" className="btn btn-primary btn-lg">
-            Start Your Application <ArrowRight size={18} />
-          </Link>
-        </div>
-      </section>
 
       {/* ════════════════════════════════════════════════════════
           FAQ
@@ -1200,14 +1127,6 @@ const Home = () => {
                 Contact Admissions <ArrowRight size={16} />
               </Link>
 
-              {/* Decorative image */}
-              <div className="mt-10 rounded-2xl overflow-hidden shadow-lg hidden lg:block">
-                <img
-                  src={school}
-                  alt="School campus"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
             </motion.div>
 
             {/* Right: accordion */}

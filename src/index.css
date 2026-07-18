@@ -817,3 +817,170 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-lg);
   object-fit: contain;
 }
+
+/* ============================================================
+   RESPONSIVE — MOBILE FIRST OVERRIDES
+   ============================================================ */
+
+/* ── Extra-small devices (phones, < 640px) ───────────────── */
+@media (max-width: 639px) {
+  /* Typography scale-down */
+  .text-display {
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+  .text-h1 {
+    font-size: 1.625rem;
+    line-height: 1.15;
+  }
+  .text-h2 {
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+  .text-h3 {
+    font-size: 1rem;
+  }
+
+  /* Section wrapper: tighter padding on mobile */
+  .section-wrapper {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Page hero: shorter on mobile */
+  .page-hero {
+    height: 220px;
+  }
+
+  /* Buttons: full-width on very small screens */
+  .btn-lg {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9375rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Cards: reduce padding */
+  .card {
+    border-radius: var(--radius-md);
+  }
+
+  /* Stat cards */
+  .stat-card {
+    padding: 1.25rem 1rem;
+  }
+  .stat-number {
+    font-size: 2rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  /* Accordion */
+  .accordion-trigger {
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+  }
+  .accordion-content {
+    padding: 0 1.25rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Testimonial */
+  .testimonial-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+  }
+
+  /* Hero shapes: hide on very small screens for cleanliness */
+  .hero-shape {
+    display: none;
+  }
+
+  /* Step connector: hide on mobile (stacked layout) */
+  .step-connector {
+    display: none;
+  }
+
+  /* Masonry: single column on small phones */
+  .masonry-grid {
+    columns: 1;
+  }
+
+  /* Notice items: stack on mobile */
+  .notice-item {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Pill badge: slightly smaller */
+  .pill-badge {
+    font-size: 0.625rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  /* Icon box: slightly smaller */
+  .icon-box {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Lightbox */
+  .lightbox-overlay {
+    padding: 0.5rem;
+  }
+  .lightbox-overlay img {
+    max-width: 95vw;
+    max-height: 85vh;
+    border-radius: var(--radius);
+  }
+}
+
+/* ── Small tablets (640px – 767px) ───────────────────────── */
+@media (min-width: 640px) and (max-width: 767px) {
+  .section-wrapper {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .text-display {
+    font-size: 2.5rem;
+  }
+  .text-h1 {
+    font-size: 1.875rem;
+  }
+
+  .masonry-grid {
+    columns: 2;
+  }
+}
+
+/* ── Tablets (768px – 1023px) ────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .section-wrapper {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .masonry-grid {
+    columns: 2;
+  }
+}
+
+/* ── Prevent horizontal overflow globally ────────────────── */
+html, body {
+  overflow-x: hidden;
+}
+
+/* ── Ensure images and media don't overflow ──────────────── */
+img, video, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Override for explicitly sized iframes (maps, embeds) */
+iframe {
+  height: unset;
+}
