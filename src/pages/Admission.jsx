@@ -1,25 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
+import schoolImage from "../assets/images/school.jpg";
 import {
   ArrowRight,
   CheckCircle2,
-  FileText,
   GraduationCap,
   Phone,
-  School,
-  UserRoundPlus,
   ChevronRight,
-  HelpCircle,
   Clock,
-  MapPin,
   Mail,
-  Download,
   AlertCircle
 } from "lucide-react";
 import siteText from "../content/siteText";
-import SectionHeader from "../components/ui/SectionHeader";
-import homepage from "../assets/images/kailali-home.png";
 
 const admissionSteps = [
   {
@@ -53,121 +46,90 @@ const requirements = [
 const programCards = [
   {
     title: "Pre-Primary / Primary",
-    age: "Age 3 – 10 years",
     description: "Nurturing early childhood years through play-based activities, Montessori teaching, and basic literacy.",
-    color: "var(--blue)",
-    iconBg: "rgba(37,99,235,0.08)",
+    iconColor: "text-blue-600 bg-blue-50 border-blue-100",
   },
   {
     title: "Secondary (Grade 6–10)",
-    age: "Age 11 – 15 years",
     description: "Empowering conceptual clarity in core subjects, practical laboratory work, SEE prep, and physical growth.",
-    color: "var(--emerald)",
-    iconBg: "rgba(16,185,129,0.08)",
+    iconColor: "text-emerald-600 bg-emerald-50 border-emerald-100",
   },
   {
     title: "Plus Two Program",
-    age: "Science, Management & Law",
     description: "Preparing students for global education and future career tracks with dedicated higher secondary faculty.",
-    color: "var(--blue)",
-    iconBg: "rgba(37,99,235,0.08)",
+    iconColor: "text-blue-600 bg-blue-50 border-blue-100",
   },
 ];
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 15 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.1 },
+  transition: { duration: 0.45, ease: "easeOut" },
+};
 
 const Admission = () => {
   const t = siteText;
 
-  const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.15 },
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-  };
-
   return (
-    <div style={{ background: "var(--bg)", color: "var(--text)" }}>
-      {/* Hero Section */}
-      <section className="relative h-64 sm:h-80 w-full overflow-hidden flex items-center">
+    <div className="bg-white text-slate-800 min-h-screen font-sans selection:bg-blue-600 selection:text-white">
+      
+      {/* ── CLEAN WHITE HERO WITH HIGH-QUALITY BACKGROUND IMAGE ── */}
+      <section className="relative h-72 sm:h-80 w-full overflow-hidden flex items-center bg-slate-100 border-b border-slate-200">
         <img
-          src={homepage}
-          alt="Admission to Kailali National School"
+          src={schoolImage}
+          alt="Admission to Kailali National School Campus"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(135deg, rgba(10,31,51,0.85) 0%, rgba(16,42,67,0.7) 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-          }}
-        />
+        {/* Soft, crisp light-mode gradient layer to maximize text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/40" />
+        <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(circle_at_center,_#000_1px,_transparent_1px)] bg-[size:32px_32px]" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="max-w-2xl">
-            
-            <h1
-              className="text-white text-3xl sm:text-5xl font-extrabold tracking-tight"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
+            <h1 className="text-slate-900 text-3xl sm:text-5xl font-black tracking-tight">
               Admissions Open
             </h1>
-           
-
-            {/* Breadcrumb */}
-            <div className="flex items-center gap-2 mt-6 text-xs text-white/50 font-medium">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <ChevronRight size={12} />
-              <span className="text-white/80">Admission</span>
+            
+            {/* Breadcrumb Links */}
+            <div className="flex items-center gap-2 mt-6 text-xs text-slate-500 font-semibold uppercase tracking-wider">
+              <Link to="/" className="hover:text-slate-900 transition-colors">Home</Link>
+              <ChevronRight size={12} className="text-slate-400" />
+              <span className="text-slate-800">Admission</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Main Layout */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-16">
+      {/* ── MAIN CONTENT LAYOUT ── */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-20">
         
-        {/* Core Info Split Grid */}
+        {/* Core Tracks & Steps Timeline Grid */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Programs overview left */}
+          {/* Left Side: Grade Level Highlights */}
           <motion.div {...fadeInUp} className="lg:col-span-7 space-y-6">
-            <span className="pill-badge pill-badge--navy inline-flex">Academic Tracks</span>
-            <h2 className="text-h1 text-[--text] mt-2 mb-6">
-              Empowering Students at{" "}
-              <span style={{ color: "var(--blue)" }}>Every Grade Level</span>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-blue-50 text-blue-700 border border-blue-100">
+              Academic Tracks
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Empowering Students at <span className="text-blue-600">Every Grade Level</span>
             </h2>
-            <p className="text-[--text-sec] leading-relaxed mb-8 text-[15px]">
+            <p className="text-slate-600 text-sm sm:text-base font-normal leading-relaxed max-w-2xl">
               We offer interactive pathways from Early Montessori through High School (+2) with custom support for board assessments, career placements, and critical learning tracks.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-4 pt-2">
               {programCards.map((card, idx) => (
-                <div
-                  key={idx}
-                  className="card p-5 border border-[--border] hover-lift flex flex-col sm:flex-row gap-4 items-start"
-                >
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: card.iconBg, color: card.color }}
-                  >
-                    <GraduationCap size={20} />
+                <div key={idx} className="bg-white border border-slate-200/80 p-5 rounded-xl shadow-sm hover:border-slate-300 transition-colors flex flex-col sm:flex-row gap-4 items-start">
+                  <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${card.iconColor}`}>
+                    <GraduationCap size={18} />
                   </div>
                   <div>
-                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                      <h3
-                        className="font-bold text-[--text] text-base"
-                        style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                      >
-                        {card.title}
-                      </h3>
-                     
-                    </div>
-                    <p className="text-xs sm:text-sm text-[--text-sec] leading-relaxed">
+                    <h3 className="font-extrabold text-slate-900 text-base mb-1 tracking-tight">
+                      {card.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                       {card.description}
                     </p>
                   </div>
@@ -176,49 +138,32 @@ const Admission = () => {
             </div>
           </motion.div>
 
-          {/* Admission steps right */}
+          {/* Right Side: Step-by-Step White Timeline Box */}
           <motion.div
             {...fadeInUp}
-            transition={{ delay: 0.15 }}
-            className="lg:col-span-5 rounded-3xl p-6 sm:p-8 text-white shadow-xl"
-            style={{
-              background: "linear-gradient(135deg, var(--navy) 0%, var(--blue-dark) 100%)",
-            }}
+            className="lg:col-span-5 rounded-2xl p-6 sm:p-8 bg-slate-50 border border-slate-200 shadow-sm"
           >
-            <span className="pill-badge pill-badge--white inline-flex mb-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-white border border-slate-200 text-slate-600 mb-4">
               Step-by-Step
             </span>
-            <h3
-              className="text-white font-extrabold text-xl sm:text-2xl mb-6"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
+            <h3 className="text-slate-900 font-extrabold text-xl sm:text-2xl mb-8 tracking-tight">
               Enrollment Timeline
             </h3>
 
             <div className="space-y-6 relative">
-              {/* timeline line */}
-              <div className="absolute left-[17px] top-4 bottom-4 w-0.5 bg-white/10" />
+              {/* Timeline Layout vertical linking line */}
+              <div className="absolute left-[17px] top-3 bottom-3 w-0.5 bg-slate-200" />
 
               {admissionSteps.map((step, idx) => (
                 <div key={idx} className="flex gap-4 relative">
-                  <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border-2"
-                    style={{
-                      background: "var(--navy)",
-                      color: "var(--emerald)",
-                      borderColor: "rgba(255,255,255,0.12)",
-                    }}
-                  >
+                  <div className="w-9 h-9 rounded-full bg-white text-blue-600 border border-slate-250 flex items-center justify-center font-bold text-xs shrink-0 z-10 shadow-sm">
                     0{idx + 1}
                   </div>
-                  <div>
-                    <h4
-                      className="font-bold text-sm text-white mb-1"
-                      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                    >
+                  <div className="pt-0.5">
+                    <h4 className="font-bold text-sm text-slate-900 mb-1 tracking-tight">
                       {step.title}
                     </h4>
-                    <p className="text-xs text-white/65 leading-relaxed">
+                    <p className="text-xs text-slate-600 leading-relaxed font-normal">
                       {step.desc}
                     </p>
                   </div>
@@ -228,113 +173,89 @@ const Admission = () => {
           </motion.div>
         </section>
 
-        {/* Required Documents / Prospectus Download */}
+        {/* Requirements Matrix & Counter Desk Grid */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
-          {/* Documents checklist left */}
-          <motion.div
-            {...fadeInUp}
-            className="lg:col-span-7 card p-6 sm:p-8 border border-[--border] flex flex-col justify-between"
-          >
+          {/* Left Card: Document Verification Checklist */}
+          <motion.div {...fadeInUp} className="lg:col-span-7 border border-slate-200 p-6 sm:p-8 rounded-2xl bg-white shadow-sm flex flex-col justify-between">
             <div>
-              <span className="pill-badge pill-badge--navy inline-flex mb-4">Documents List</span>
-              <h3
-                className="font-extrabold text-xl sm:text-2xl text-[--text] mb-5"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-              >
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-blue-50 text-blue-700 border border-blue-100 mb-4">
+                Documents List
+              </span>
+              <h3 className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight mb-3">
                 Required Verification Files
               </h3>
-              <p className="text-sm text-[--text-sec] leading-relaxed mb-6">
+              <p className="text-slate-600 text-xs sm:text-sm font-normal mb-6">
                 Please prepare photocopies of these files before submitting the finalized application to our administrative counter.
               </p>
 
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 {requirements.map((req, idx) => (
-                  <li key={idx} className="flex gap-2.5 items-start text-xs sm:text-sm text-[--text-sec]">
-                    <CheckCircle2 size={16} className="text-[--emerald] shrink-0 mt-0.5" />
-                    <span>{req}</span>
+                  <li key={idx} className="flex gap-2.5 items-start text-xs sm:text-sm text-slate-600">
+                    <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span className="font-medium text-slate-700">{req}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Note banner */}
-            <div
-              className="mt-8 p-4 rounded-xl flex gap-3 text-xs text-[--text-sec]"
-              style={{ background: "rgba(37,99,235,0.04)", border: "1px solid rgba(37,99,235,0.12)" }}
-            >
-              <AlertCircle size={16} className="text-[--blue] shrink-0" />
+            {/* Note alert layout box */}
+            <div className="mt-8 p-4 rounded-xl flex gap-3 text-xs bg-slate-50 border border-slate-200/60 text-slate-600">
+              <AlertCircle size={15} className="text-blue-600 shrink-0 mt-0.5" />
               <span>
-                <strong>Note:</strong> Original Transfer and Character Certificates will be collected and kept at the school archives during final confirmation.
+                <strong className="text-slate-900">Note:</strong> Original Transfer and Character Certificates will be collected and kept at the school archives during final enrollment validation.
               </span>
             </div>
           </motion.div>
 
-          {/* Admission support / Contact Card right */}
+          {/* Right Card: Pure White Contact Desk Box */}
           <motion.div
             {...fadeInUp}
-            transition={{ delay: 0.15 }}
-            className="lg:col-span-5 card p-6 sm:p-8 border border-[--border] flex flex-col justify-between"
-            style={{ background: "var(--bg-alt)" }}
+            className="lg:col-span-5 border border-slate-200 p-6 sm:p-8 rounded-2xl bg-white shadow-sm flex flex-col justify-between"
           >
             <div>
-              <span className="pill-badge pill-badge--navy inline-flex mb-4">Admissions Desk</span>
-              <h3
-                className="font-extrabold text-xl sm:text-2xl text-[--text] mb-2"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-              >
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-blue-50 text-blue-700 border border-blue-100 mb-4">
+                Admissions Desk
+              </span>
+              <h3 className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight mb-3">
                 Need Assistance?
               </h3>
-              <p className="text-sm text-[--text-sec] leading-relaxed mb-6">
-                Our customer desk is open during regular hours to guide you through school structures, fees, transport, and hostels.
+              <p className="text-slate-600 text-xs sm:text-sm font-normal leading-relaxed mb-6">
+                Our customer desk is open during regular operational hours to guide you through school pricing structures, transport routing systems, and hostel allocations.
               </p>
 
               <ul className="space-y-4">
                 <li>
-                  <a
-                    href="tel:+97791540488"
-                    className="flex items-center gap-3 text-sm text-[--text] hover:text-[--blue] transition-colors"
-                  >
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                      style={{ background: "rgba(37,99,235,0.08)" }}
-                    >
-                      <Phone size={14} className="text-[--blue]" />
+                  <a href="tel:+97791540488" className="flex items-center gap-3 text-slate-800 hover:text-blue-600 transition-colors text-sm group">
+                    <div className="w-8 h-8 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center shrink-0 group-hover:border-blue-100 group-hover:bg-white transition-all">
+                      <Phone size={13} className="text-blue-600" />
                     </div>
-                    <span className="font-semibold">+977-91-540488</span>
+                    <span className="font-bold text-xs sm:text-sm tracking-tight text-slate-850">+977-91-540488</span>
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="mailto:contact@kailalinational.edu.np"
-                    className="flex items-center gap-3 text-sm text-[--text] hover:text-[--blue] transition-colors"
-                  >
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                      style={{ background: "rgba(37,99,235,0.08)" }}
-                    >
-                      <Mail size={14} className="text-[--blue]" />
+                  <a href="mailto:contact@kailalinational.edu.np" className="flex items-center gap-3 text-slate-800 hover:text-blue-600 transition-colors text-sm group">
+                    <div className="w-8 h-8 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center shrink-0 group-hover:border-blue-100 group-hover:bg-white transition-all">
+                      <Mail size={13} className="text-blue-600" />
                     </div>
-                    <span className="font-semibold text-xs sm:text-sm truncate">contact@kailalinational.edu.np</span>
+                    <span className="font-bold text-xs sm:text-sm tracking-tight text-slate-850 truncate">contact@kailalinational.edu.np</span>
                   </a>
                 </li>
-                <li className="flex items-center gap-3 text-sm text-[--text-sec]">
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ background: "rgba(37,99,235,0.08)" }}
-                  >
-                    <Clock size={14} className="text-[--blue]" />
+                <li className="flex items-center gap-3 text-slate-600 text-xs sm:text-sm">
+                  <div className="w-8 h-8 rounded-lg border border-slate-100 bg-slate-50 flex items-center justify-center shrink-0">
+                    <Clock size={13} className="text-slate-500" />
                   </div>
-                  <span>Sun – Fri: 9:00 AM – 4:00 PM</span>
+                  <span className="font-medium text-slate-700">Sun – Fri: 9:00 AM – 4:00 PM</span>
                 </li>
               </ul>
             </div>
 
+            {/* Bottom Form Actions Grid Box */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-8">
-              <Link to="/contact" className="btn btn-primary justify-center">
-                Contact Office <ArrowRight size={14} />
+              <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/10 active:scale-98 transition-all">
+                Contact Office <ArrowRight size={13} />
               </Link>
-              <Link to="/about" className="btn btn-secondary justify-center">
+              <Link to="/about" className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-bold text-xs bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
                 About Campus
               </Link>
             </div>

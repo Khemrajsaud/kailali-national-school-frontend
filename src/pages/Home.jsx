@@ -43,8 +43,8 @@ import gallary4 from "../assets/images/kailali4.jpeg";
 import principal from "../assets/images/dummyimage.png";
 import library from "../assets/images/library.jpg";
 import sports from "../assets/images/sport.jpg";
-import music from '../assets/images/music.jpg';
-
+import music from "../assets/images/music.jpg";
+import schoolImg from "../assets/images/school.jpg";
 import siteText from "../content/siteText";
 import { apiUrl } from "../config/api";
 import smartclassroom from "../assets/images/smartclassroom.jpg";
@@ -52,10 +52,21 @@ import computerlab from "../assets/images/computerlab.jpg";
 import scienceLab from "../assets/images/sciencelab.jpg";
 import AnimatedCounter from "../components/ui/AnimatedCounter";
 import SectionHeader from "../components/ui/SectionHeader";
+import sport from "../assets/images/sport.jpg";
+import teacher from "../assets/images/teacher.jpg";
+import modernClass from "../assets/images/modern-class.jpg";
+import qualityEducation from "../assets/images/quality-education.jpg";
+import safety from "../assets/images/safety.png";
+import computerLab from "../assets/images/computer-lab.jpg";
+import sSport from "../assets/images/s-sport.jpg";
+import principle from "../assets/images/principle.jpg";
+import priPrimary from "../assets/images/pri-primary.jpg";
+import primary from "../assets/images/primary.jpg";
+import secondary from "../assets/images/secondary.jpg";
+import plusTwo from "../assets/images/plustwo.jpg";
 
 const API_URL = apiUrl("/api/news");
 
-// Animation presets
 const fadeUp = {
   initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
@@ -70,7 +81,6 @@ const stagger = (delay = 0) => ({
   transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1], delay },
 });
 
-// ── FAQ Accordion ──────────────────────────────────────────
 const faqs = [
   {
     q: "What academic programs are available at Kailali National School?",
@@ -98,7 +108,6 @@ const faqs = [
   },
 ];
 
-// ── Testimonials ───────────────────────────────────────────
 const testimonials = [
   {
     name: "Priya Sharma",
@@ -143,7 +152,6 @@ const Home = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const carouselRef = useRef(null);
 
-  // Auto-advance testimonials
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -184,52 +192,56 @@ const Home = () => {
     });
   };
 
-  // ── Why Choose Us cards ────────────────────────────────
   const whyCards = [
     {
       icon: <BookOpen size={22} />,
       title: "Quality Education",
       desc: "NEB-affiliated curriculum with modern pedagogical approaches and a focus on deep conceptual understanding.",
       color: "blue",
+      image: qualityEducation,
     },
     {
       icon: <Users size={22} />,
       title: "Experienced Teachers",
       desc: "Our dedicated faculty bring decades of expertise, passion, and mentorship to every classroom experience.",
       color: "emerald",
+      image: teacher,
     },
     {
       icon: <Monitor size={22} />,
       title: "Modern Classrooms",
       desc: "Smart boards, digital tools, and interactive learning environments that inspire curiosity and innovation.",
       color: "blue",
+      image: modernClass,
     },
     {
       icon: <Dumbbell size={22} />,
       title: "Sports & Activities",
       desc: "A rich co-curricular program including sports, music, dance, debate, and leadership development activities.",
       color: "emerald",
+      image: sSport,
     },
     {
       icon: <FlaskConical size={22} />,
       title: "Computer & Science Labs",
       desc: "Fully-equipped laboratories for hands-on experimentation, coding, and scientific discovery.",
       color: "blue",
+      image: scienceLab,
     },
     {
       icon: <Shield size={22} />,
       title: "Student Safety",
       desc: "24/7 CCTV surveillance, trained security staff, and a safe, inclusive, supportive campus environment.",
       color: "emerald",
+      image: safety,
     },
   ];
 
-  // ── Academic programs ──────────────────────────────────
   const programs = [
     {
       level: "Pre-Primary",
       tag: "Play Group",
-      img: gallary1,
+      img: priPrimary,
       desc: "Play-based, Montessori-inspired early childhood development in a nurturing, colorful environment.",
       to: "/academic/primary",
       color: "#2563EB",
@@ -237,7 +249,7 @@ const Home = () => {
     {
       level: "Primary School",
       tag: "Grades 1–5",
-      img: gallary2,
+      img: primary,
       desc: "Strong foundational literacy and numeracy with interactive, activity-based modern learning approaches.",
       to: "/academic/primary",
       color: "#10B981",
@@ -245,7 +257,7 @@ const Home = () => {
     {
       level: "Secondary School",
       tag: "Grades 6–10",
-      img: gallary3,
+      img: secondary,
       desc: "Rigorous SEE preparation with practical labs, critical thinking, and comprehensive academic support.",
       to: "/academic/secondary",
       color: "#2563EB",
@@ -253,14 +265,13 @@ const Home = () => {
     {
       level: "+2 Program",
       tag: "Grades 11–12",
-      img: gallary4,
+      img: plusTwo,
       desc: "Specialized Science, Management & Law streams designed to prepare students for higher education.",
       to: "/academic/plus-two",
       color: "#10B981",
     },
   ];
 
-  // ── Facilities ────────────────────────────────────────
   const facilities = [
     {
       title: "Smart Classrooms",
@@ -282,7 +293,6 @@ const Home = () => {
     { title: "Music Room", img: music, icon: <Music size={18} /> },
   ];
 
-  // ── Admission steps ───────────────────────────────────
   const admissionSteps = [
     {
       num: "01",
@@ -312,134 +322,83 @@ const Home = () => {
 
   return (
     <div style={{ background: "var(--bg)", color: "var(--text)" }}>
-      {/* ════════════════════════════════════════════════════════
-          HERO SECTION
-          ════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex flex-col overflow-hidden group">
-        {/* Background image */}
-        <img
-          src={home}
-          alt="Kailali National School Campus"
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[10s] ease-out group-hover:scale-105"
-        />
+     
+{/* ── HERO SECTION ── */}
+<section className="relative min-h-screen flex flex-col overflow-hidden group bg-slate-950">
+  {/* Background Image with Lower Base Opacity */}
+  <img
+    src={schoolImg}
+    alt="Kailali National School Campus"
+    className="absolute inset-0 w-full h-full object-cover opacity-60 transition-transform duration-[10s] ease-out group-hover:scale-105"
+  />
 
-        {/* Overlay */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(10,31,51,0.88) 0%, rgba(16,42,67,0.75) 50%, rgba(16,42,67,0.55) 100%)",
+  {/* Smooth Gradient Scrim for Readability */}
+  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/50 to-transparent" />
+
+  {/* Hero Content Container */}
+  <div className="relative z-10 flex-1 flex items-center">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
+      <div className="max-w-3xl">
+        
+        {/* Responsive Heading */}
+        <motion.h1
+          className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1] mb-6"
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.75,
+            ease: [0.16, 1, 0.3, 1],
+            delay: 0.1,
           }}
-        />
-
-        {/* Decorative floating shapes */}
-        <div className="hero-shape hero-shape-1" />
-        <div className="hero-shape hero-shape-2" />
-        <div className="hero-shape hero-shape-3" />
-
-        {/* Dot grid pattern */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-          }}
-        />
-
-        {/* Hero Content */}
-        <div className="relative z-10 flex-1 flex items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 w-full">
-            <div className="max-w-3xl">
-              <motion.h1
-                className="text-display text-white mb-6"
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.75,
-                  ease: [0.16, 1, 0.3, 1],
-                  delay: 0.1,
-                }}
-              >
-                Inspiring Young Minds.{" "}
-                <span
-                  style={{
-                    background: "linear-gradient(90deg, #34D399, #10B981)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  Building Bright Futures.
-                </span>
-              </motion.h1>
-
-              <motion.p
-                className="text-lg text-white/75 leading-relaxed max-w-xl mb-10"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.25 }}
-              >
-                We provide quality education that nurtures creativity,
-                leadership, innovation, and lifelong learning in a safe and
-                supportive environment. Established 1999 AD.
-              </motion.p>
-
-              <motion.div
-                className="flex flex-wrap gap-4 mb-14"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                <Link to="/admission" className="btn btn-emerald btn-lg">
-                  Enroll Now <ArrowRight size={18} />
-                </Link>
-                <Link to="/academic" className="btn btn-ghost-white btn-lg">
-                  Explore Programs
-                </Link>
-              </motion.div>
-
-
-            </div>
-          </div>
-        </div>
-
-
-      </section>
-
-
-      <section
-        className="relative overflow-hidden py-6"
-        style={{ background: "var(--navy)" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            className="grid grid-cols-2 sm:grid-cols-4 gap-px"
-            style={{ background: "rgba(255,255,255,0.08)" }}
+        >
+          Inspiring Young Minds.{" "}
+          <span
+            className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block"
           >
-            {[
-              { end: 25, suffix: "+", label: "Years of Excellence" },
-              { end: 150, suffix: "+", label: "Expert Teachers" },
-              { end: 3500, suffix: "+", label: "Students Enrolled" },
-              { end: 100, suffix: "%", label: "Board Exam Success" },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center justify-center py-8 px-4 text-center"
-                style={{ background: "var(--navy)" }}
-              >
-                <div className="stat-number">
-                  <AnimatedCounter end={stat.end} suffix={stat.suffix} />
-                </div>
-                <div className="text-white/55 text-xs font-semibold uppercase tracking-widest mt-2">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            Building Bright Futures.
+          </span>
+        </motion.h1>
 
+        {/* High Contrast Subtext */}
+        <motion.p
+          className="text-base sm:text-lg md:text-xl text-slate-200/90 leading-relaxed max-w-xl mb-10 font-medium"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.25 }}
+        >
+          We provide quality education that nurtures creativity, leadership, 
+          innovation, and lifelong learning in a safe and supportive environment. 
+          <span className="block mt-2 text-sm uppercase tracking-wider text-blue-400 font-bold">
+            Established 1999 AD.
+          </span>
+        </motion.p>
+
+        {/* Accessible Action Buttons */}
+        <motion.div
+          className="flex flex-col sm:flex-row flex-wrap gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <Link 
+            to="/admission" 
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/20 transition-all duration-200 text-center"
+          >
+            Enroll Now <ArrowRight size={18} />
+          </Link>
+          <Link 
+            to="/academic" 
+            className="inline-flex items-center justify-center px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl backdrop-blur-sm border border-white/20 transition-colors duration-200 text-center"
+          >
+            Explore Programs
+          </Link>
+        </motion.div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+      
       {/*
           ABOUT / INTRO SECTION
          */}
@@ -447,29 +406,13 @@ const Home = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Image collage */}
           <motion.div {...stagger(0)} className="relative">
-            <div className="grid grid-cols-2 gap-4">
+            <div>
               <img
-                src={gallary1}
+                src={schoolImg}
                 alt="Students"
                 className="h-56 w-full rounded-2xl object-cover shadow-lg"
               />
-              <img
-                src={gallary2}
-                alt="Classroom"
-                className="h-56 w-full rounded-2xl object-cover shadow-lg mt-8"
-              />
-              <img
-                src={gallary3}
-                alt="Activities"
-                className="h-56 w-full rounded-2xl object-cover shadow-lg -mt-4"
-              />
-              <img
-                src={school}
-                alt="Campus"
-                className="h-56 w-full rounded-2xl object-cover shadow-lg mt-4"
-              />
             </div>
-
           </motion.div>
 
           {/* Text */}
@@ -495,43 +438,16 @@ const Home = () => {
               education with scholarship opportunities for deserving students.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-              {[
-                "NEB Affiliated & Ministry Approved",
-                "Scholarship Opportunities Available",
-                "Play Group to +2 (Grade 12)",
-                "Science, Management & Law Streams",
-                "Experienced & Dedicated Faculty",
-                "Modern Infrastructure & Smart Labs",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-2.5">
-                  <CheckCircle2
-                    size={16}
-                    className="shrink-0 mt-0.5"
-                    style={{ color: "var(--emerald)" }}
-                  />
-                  <span className="text-sm text-[--text-sec] font-medium">
-                    {item}
-                  </span>
-                </div>
-              ))}
-            </div>
-
             <div className="flex flex-wrap gap-3">
               <Link to="/about" className="btn btn-primary">
                 Learn More <ArrowRight size={16} />
-              </Link>
-              <Link to="/contact" className="btn btn-secondary">
-                Contact Us
               </Link>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          WHY CHOOSE US
-          ════════════════════════════════════════════════════════ */}
+      {/* WHY CHOOSE US */}
       <section
         className="py-20 sm:py-24"
         style={{ background: "var(--bg-alt)" }}
@@ -545,7 +461,6 @@ const Home = () => {
                 <span style={{ color: "var(--blue)" }}>the Best Choice</span>
               </>
             }
-            subtitle="Our school blends academic excellence, character building, and modern learning spaces to help every student grow with confidence and purpose."
             className="mb-14"
           />
 
@@ -556,11 +471,13 @@ const Home = () => {
                 {...stagger(i * 0.08)}
                 className="card p-6 hover-lift group cursor-default"
               >
-                <div
-                  className={`icon-box ${card.color === "blue" ? "icon-box--blue" : "icon-box--emerald"} mb-5 transition-all duration-300 group-hover:scale-110`}
-                >
-                  {card.icon}
-                </div>
+             
+                
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-32 object-cover rounded-lg mb-3"
+                />
                 <h3
                   className="font-bold text-[--text] mb-2.5"
                   style={{
@@ -570,23 +487,21 @@ const Home = () => {
                 >
                   {card.title}
                 </h3>
-                <p className="text-sm text-[--text-sec] leading-relaxed">
-                  {card.desc}
-                </p>
+              
               </motion.div>
             ))}
           </div>
         </div>
+
+       
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          ACADEMIC PROGRAMS
-          ════════════════════════════════════════════════════════ */}
+      {/* ACADEMIC PROGRAMS */}
+
       <section className="section-wrapper">
         <SectionHeader
           badge="Academic Excellence"
           title="Our Academic Programs"
-          subtitle="A strong foundation from early childhood through higher secondary education, designed for every learner's journey."
           className="mb-14"
         />
 
@@ -626,9 +541,7 @@ const Home = () => {
                 >
                   {prog.level}
                 </h3>
-                <p className="text-white/70 text-xs leading-relaxed mb-3">
-                  {prog.desc}
-                </p>
+              
                 <div className="flex items-center gap-1.5 text-white/80 text-xs font-semibold group-hover:text-white transition-colors">
                   Learn More{" "}
                   <ArrowRight
@@ -648,105 +561,73 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          PRINCIPAL'S MESSAGE
-          ════════════════════════════════════════════════════════ */}
-      <section
-        className="py-20 sm:py-24 overflow-hidden"
-        style={{ background: "var(--bg-alt)" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Image */}
-            <motion.div {...stagger(0)} className="relative order-2 lg:order-1">
-              <div
-                className="absolute inset-0 rounded-3xl translate-x-4 translate-y-4 opacity-20"
-                style={{ background: "var(--blue)" }}
-              />
-              <img
-                src={principal}
-                alt="Principal"
-                className="relative w-full max-h-[480px] rounded-3xl object-cover shadow-xl"
-              />
-              {/* Name card */}
-              <div className="absolute -bottom-5 left-6 bg-white rounded-2xl px-5 py-3.5 shadow-xl border border-[--border]">
-                <div
-                  className="font-bold text-[--text]"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                >
-                  School Principal
-                </div>
-                <div className="text-[--text-sec] text-xs mt-0.5">
-                  Kailali National School
-                </div>
-
-              </div>
-            </motion.div>
-
-            {/* Message */}
-            <motion.div {...stagger(0.2)} className="order-1 lg:order-2">
-              <span className="pill-badge pill-badge--navy mb-4 inline-flex">
-                Principal's Message
-              </span>
-              <h2 className="text-h1 text-[--text] mt-3 mb-6">
-                A Message of{" "}
-                <span style={{ color: "var(--blue)" }}>Inspiration</span>
-              </h2>
-
-              <div
-                className="relative p-6 rounded-2xl mb-6"
-                style={{
-                  background: "rgba(37,99,235,0.04)",
-                  border: "1px solid rgba(37,99,235,0.12)",
-                }}
-              >
-                <Quote
-                  size={32}
-                  className="absolute -top-4 -left-2 opacity-20"
-                  style={{ color: "var(--blue)" }}
-                />
-                <p className="text-[--text-sec] text-[15px] leading-relaxed italic">
-                  "It is with great pride and joy that I welcome you to Kailali
-                  National School. We stand committed to nurturing not just
-                  academic brilliance, but also strong character, critical
-                  thinking, and compassionate citizenship. Every child is
-                  unique, and our mission is to create an environment where
-                  individual strengths can flourish."
-                </p>
-              </div>
-
-              <p className="text-[--text-sec] text-[15px] leading-relaxed mb-6">
-                Our experienced faculty work tirelessly to provide learning that
-                goes beyond textbooks — hands-on projects, real-world
-                applications, and a culture of curiosity. We believe success is
-                not just about grades, but about becoming the best version of
-                yourself.
-              </p>
-
-              <div
-                className="font-bold text-[--navy] text-lg"
-                style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontStyle: "italic",
-                }}
-              >
-                — Principal, Kailali National School
-              </div>
 
 
-            </motion.div>
-          </div>
+{/* ── PRINCIPAL'S MESSAGE SECTION ── */}
+<section className="py-16 sm:py-24 bg-slate-50/50 overflow-hidden border-y border-slate-100/80">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      
+      {/* Visual Image Column (Scaled down and perfectly proportioned) */}
+      <motion.div {...stagger(0)} className="relative order-2 lg:order-1 lg:col-span-4 flex justify-center">
+        {/* Soft elegant background shape offset */}
+        <div className="absolute top-8 bottom-0 -left-3 right-10 rounded-2xl bg-blue-600/5 -rotate-1 hidden lg:block" />
+        
+        <div className="relative w-full max-w-xs bg-white p-2.5 rounded-2xl shadow-xl shadow-slate-200/40 border border-slate-100">
+          <img
+            src={principle} 
+            alt="Principal Profile Photo"
+            className="w-full aspect-[4/5] sm:h-[380px] object-cover rounded-xl bg-slate-100"
+          />
         </div>
-      </section>
+      </motion.div>
 
-      {/* ════════════════════════════════════════════════════════
+      {/* Message Content Column (Clean, highly legible layout) */}
+      <motion.div {...stagger(0.2)} className="order-1 lg:order-2 lg:col-span-8 flex flex-col justify-center">
+        <div>
+          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 border border-blue-100/60">
+            Leadership Insights
+          </span>
+        </div>
+        
+        <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-3 mb-6 leading-tight">
+          A Message of <span className="text-blue-600">Inspiration</span>
+        </h2>
+
+        {/* Clean Modern Quote Layout */}
+        <div className="relative border-l-4 border-blue-600 pl-5 my-6">
+          <Quote
+            size={36}
+            className="absolute -top-4 left-4 text-slate-100/80 -z-10 pointer-events-none select-none scale-y-[-1]"
+          />
+          <p className="text-slate-800 text-base sm:text-lg font-medium leading-relaxed italic">
+            "It is with great pride and joy that I welcome you to Kailali National School. 
+            We stand committed to nurturing not just academic brilliance, but also strong 
+            character, critical thinking, and compassionate citizenship. Every child is unique, 
+            and our mission is to create an environment where individual strengths can flourish."
+          </p>
+        </div>
+
+        {/* Supporting Context Paragraph */}
+        <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+          Our experienced faculty work tirelessly to provide learning that goes beyond standard 
+          textbooks through hands-on developmental projects, real-world analytical applications, 
+          and a supportive culture of raw curiosity. We firmly believe true educational success is not just 
+          measured by grade points, but about becoming the absolute best version of yourself.
+        </p>
+      </motion.div>
+
+    </div>
+  </div>
+</section>
+
+      {/* 
           CAMPUS FACILITIES
-          ════════════════════════════════════════════════════════ */}
+           */}
       <section className="section-wrapper">
         <SectionHeader
           badge="Campus Facilities"
-          title="World-Class Facilities for Every Learner"
-          subtitle="Our state-of-the-art infrastructure is thoughtfully designed to support academic, creative, and physical development."
+          title="World Class Facilities for Every Learner"
           className="mb-14"
         />
 
@@ -778,9 +659,7 @@ const Home = () => {
                     {facility.title}
                   </span>
                 </div>
-                <p className="text-white/70 text-xs mt-1.5 ml-0.5">
-                  Modern spaces for better learning experiences.
-                </p>
+                
               </div>
             </motion.div>
           ))}
@@ -793,100 +672,119 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          SCHOOL GALLERY
-          ════════════════════════════════════════════════════════ */}
-      <section
-        className="py-20 sm:py-24"
-        style={{ background: "var(--bg-alt)" }}
+      
+
+
+      {/* ── SCHOOL GALLERY SECTION ── */}
+<section className="py-16 sm:py-24 bg-white border-b border-slate-100">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <SectionHeader
+      badge="School Gallery"
+      title="A Glimpse of Life at Kailali National School"
+      className="mb-12 text-center"
+    />
+
+    {/* Elegant Bento Grid Setup */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:auto-rows-[180px]">
+      
+      {/* Card 1: Large Featured Block */}
+      <motion.div
+        {...stagger(0)}
+        className="relative group overflow-hidden rounded-2xl border border-slate-100 md:row-span-2 min-h-[280px] md:min-h-auto shadow-sm"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            badge="School Gallery"
-            title="A Glimpse of Life at Kailali National School"
-            subtitle="Explore vibrant campus moments  classrooms, labs, sports, events, and everything in between."
-            className="mb-14"
-          />
-
-          {/* Masonry-style grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-auto">
-            <motion.div
-              {...stagger(0)}
-              className="img-card lg:row-span-2"
-              style={{ height: "320px" }}
-            >
-              <img src={gallary1} alt="Students" className="!h-full" />
-              <div className="img-card-overlay" />
-              <div className="absolute bottom-4 left-4 text-white text-xs font-semibold">
-                Students & Learning
-              </div>
-            </motion.div>
-            <motion.div
-              {...stagger(0.1)}
-              className="img-card"
-              style={{ height: "152px" }}
-            >
-              <img src={gallary2} alt="Labs" className="!h-full" />
-              <div className="img-card-overlay" />
-            </motion.div>
-            <motion.div
-              {...stagger(0.15)}
-              className="img-card lg:row-span-2"
-              style={{ height: "320px" }}
-            >
-              <img src={principal} alt="Campus" className="!h-full" />
-              <div className="img-card-overlay" />
-            </motion.div>
-            <motion.div
-              {...stagger(0.2)}
-              className="img-card"
-              style={{ height: "152px" }}
-            >
-              <img src={gallary3} alt="Sports" className="!h-full" />
-              <div className="img-card-overlay" />
-            </motion.div>
-            <motion.div
-              {...stagger(0.1)}
-              className="img-card"
-              style={{ height: "152px" }}
-            >
-              <img src={smartclassroom} alt="Smart Class" className="!h-full" />
-              <div className="img-card-overlay" />
-            </motion.div>
-            <motion.div
-              {...stagger(0.2)}
-              className="img-card"
-              style={{ height: "152px" }}
-            >
-              <img src={gallary4} alt="Events" className="!h-full" />
-              <div className="img-card-overlay" />
-            </motion.div>
-            <motion.div
-              {...stagger(0.25)}
-              className="img-card"
-              style={{ height: "152px" }}
-            >
-              <img src={computerlab} alt="Computer Lab" className="!h-full" />
-              <div className="img-card-overlay" />
-            </motion.div>
-          </div>
-
-          <div className="text-center mt-10">
-            <button
-              onClick={() => navigate("/resources/gallery")}
-              className="btn btn-primary"
-            >
-              View Full Gallery <ArrowRight size={16} />
-            </button>
-          </div>
+        <img src={gallary1} alt="Students learning in class" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
+        <div className="absolute bottom-4 left-4 text-white">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400">Campus Experience</span>
+          <p className="text-sm font-semibold mt-0.5">Students & Learning</p>
         </div>
-      </section>
+      </motion.div>
+
+      {/* Card 2: Standard Block */}
+      <motion.div
+        {...stagger(0.05)}
+        className="relative group overflow-hidden rounded-2xl border border-slate-100 min-h-[180px] md:min-h-auto shadow-sm"
+      >
+        <img src={gallary2} alt="Science Laboratories" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-60" />
+        <div className="absolute bottom-4 left-4 text-white">
+          <p className="text-sm font-semibold">Practical Labs</p>
+        </div>
+      </motion.div>
+
+      {/* Card 3: Large Featured Block */}
+      <motion.div
+        {...stagger(0.1)}
+        className="relative group overflow-hidden rounded-2xl border border-slate-100 md:row-span-2 min-h-[280px] md:min-h-auto shadow-sm"
+      >
+        <img src={schoolImg || principal} alt="School Main Campus View" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-80" />
+        <div className="absolute bottom-4 left-4 text-white">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400">Infrastructure</span>
+          <p className="text-sm font-semibold mt-0.5">Our Campus Grounds</p>
+        </div>
+      </motion.div>
+
+      {/* Card 4: Standard Block */}
+      <motion.div
+        {...stagger(0.15)}
+        className="relative group overflow-hidden rounded-2xl border border-slate-100 min-h-[180px] md:min-h-auto shadow-sm"
+      >
+        <img src={gallary3} alt="Sports Activities" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-60" />
+        <div className="absolute bottom-4 left-4 text-white">
+          <p className="text-sm font-semibold">Sports & Athletics</p>
+        </div>
+      </motion.div>
+
+      {/* Card 5: Standard Block */}
+      <motion.div
+        {...stagger(0.2)}
+        className="relative group overflow-hidden rounded-2xl border border-slate-100 min-h-[180px] md:min-h-auto shadow-sm"
+      >
+        <img src={smartclassroom} alt="Interactive Smart Classroom" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-60" />
+        <div className="absolute bottom-4 left-4 text-white">
+          <p className="text-sm font-semibold">Smart Classrooms</p>
+        </div>
+      </motion.div>
+
+      {/* Card 6: Standard Block */}
+      <motion.div
+        {...stagger(0.25)}
+        className="relative group overflow-hidden rounded-2xl border border-slate-100 min-h-[180px] md:min-h-auto shadow-sm"
+      >
+        <img src={gallary4} alt="Annual Events and Celebrations" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-60" />
+        <div className="absolute bottom-4 left-4 text-white">
+          <p className="text-sm font-semibold">Events & Culture</p>
+        </div>
+      </motion.div>
+
+      
+
+    </div>
+
+    {/* Clean CTA Button Area */}
+    <div className="text-center mt-12">
+      <button
+        onClick={() => navigate("/resources/gallery")}
+        className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl shadow-sm transition-colors duration-200"
+      >
+        View Full Gallery 
+        <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+      </button>
+    </div>
+
+  </div>
+</section>
 
       {/* ════════════════════════════════════════════════════════
           LATEST NEWS
           ════════════════════════════════════════════════════════ */}
       <section className="section-wrapper">
-        <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
+        <div className="flex items-end justify-between mb-5 gap-6 flex-wrap">
           <SectionHeader
             badge="Latest Updates"
             title={
@@ -925,7 +823,7 @@ const Home = () => {
                 onClick={() => navigate(`/news/${news._id || news.id}`)}
               >
                 <div className="relative h-48 overflow-hidden">
-                  {(news.image_url || news.image) ? (
+                  {news.image_url || news.image ? (
                     <img
                       src={news.image_url || news.image}
                       alt={news.title}
@@ -937,7 +835,10 @@ const Home = () => {
                       className="w-full h-full flex items-center justify-center"
                       style={{ background: "var(--bg-alt)" }}
                     >
-                      <BookOpen size={48} style={{ color: "var(--text-muted)", opacity: 0.3 }} />
+                      <BookOpen
+                        size={48}
+                        style={{ color: "var(--text-muted)", opacity: 0.3 }}
+                      />
                     </div>
                   )}
                   <div className="absolute top-3 left-3">
@@ -951,7 +852,8 @@ const Home = () => {
                   <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
-                      background: "linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 50%)",
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 50%)",
                     }}
                   />
                 </div>
@@ -988,118 +890,128 @@ const Home = () => {
         )}
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          TESTIMONIALS
-          ════════════════════════════════════════════════════════ */}
-      <section
-        className="py-20 sm:py-24 overflow-hidden"
-        style={{ background: "var(--navy)" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
+      
 
-            title={
-              <>
-                What Our{" "}
-                <span style={{ color: "var(--emerald)" }}>Community Says</span>
-              </>
-            }
-            subtitle="Hear from the parents, students, and alumni who are part of the Kailali National School family."
-            light
-            className="mb-14"
-          />
+{/* ════════════════════════════════════════════════════════
+    TESTIMONIALS SECTION
+    ════════════════════════════════════════════════════════ */}
+<section className="relative py-20 sm:py-24 bg-slate-950 overflow-hidden">
+  
+  {/* Ambient Background Glows */}
+  <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-blue-600/5 blur-3xl" />
+  </div>
 
-          <div className="relative max-w-3xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTestimonial}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.4 }}
-                className="testimonial-card text-center"
-              >
-                <div className="quote-mark">"</div>
-                <p className="text-[--text-sec] text-[15px] sm:text-[17px] leading-relaxed mb-8 italic">
-                  {testimonials[activeTestimonial].quote}
-                </p>
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    {/* Clean Section Heading */}
+    <SectionHeader
+      title={
+        <span className="text-white font-black">
+          What Our <span className="text-blue-500">Community Says</span>
+        </span>
+      }
+      
+      className="mb-16"
+    />
 
-                <div className="flex justify-center gap-1 mb-5">
-                  {[...Array(testimonials[activeTestimonial].rating)].map(
-                    (_, i) => (
-                      <Star
-                        key={i}
-                        size={16}
-                        className="text-yellow-400 fill-yellow-400"
-                      />
-                    ),
-                  )}
-                </div>
-
-                <div className="flex items-center justify-center gap-3">
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, var(--blue), var(--navy))",
-                    }}
-                  >
-                    {testimonials[activeTestimonial].avatar}
-                  </div>
-                  <div className="text-left">
-                    <div
-                      className="font-bold text-[--text]"
-                      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                    >
-                      {testimonials[activeTestimonial].name}
-                    </div>
-                    <div className="text-[--text-sec] text-sm">
-                      {testimonials[activeTestimonial].role}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Navigation */}
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                onClick={() =>
-                  setActiveTestimonial(
-                    (p) => (p - 1 + testimonials.length) % testimonials.length,
-                  )
-                }
-                className="w-10 h-10 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <div className="flex gap-2">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveTestimonial(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${i === activeTestimonial
-                      ? "w-8 bg-[--emerald]"
-                      : "w-2 bg-white/25"
-                      }`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() =>
-                  setActiveTestimonial((p) => (p + 1) % testimonials.length)
-                }
-                className="w-10 h-10 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors"
-              >
-                <ChevronRight size={18} />
-              </button>
+    {/* Testimonial Slider Wrapper */}
+    <div className="relative max-w-3xl mx-auto">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTestimonial}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -15 }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
+          className="relative bg-slate-900/40 border border-slate-900 backdrop-blur-md rounded-2xl p-8 sm:p-10 text-center shadow-xl"
+        >
+          {/* Decorative Quote Mark Icon */}
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500/10 text-blue-500">
+              <Quote size={18} className="fill-blue-500/10" />
             </div>
           </div>
+
+          {/* Dynamic Review Quote */}
+          <p className="text-slate-300 text-[15px] sm:text-[17px] font-medium leading-relaxed mb-6 italic">
+            "{testimonials[activeTestimonial].quote}"
+          </p>
+
+          {/* Star Rating Layout */}
+          <div className="flex justify-center gap-1 mb-8">
+            {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
+              <Star
+                key={i}
+                size={14}
+                className="text-amber-400 fill-amber-400"
+              />
+            ))}
+          </div>
+
+          {/* Reviewer Profile Meta Details */}
+          <div className="flex items-center justify-center gap-3.5 pt-4 border-t border-slate-900/60 max-w-xs mx-auto">
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md flex items-center justify-center text-white font-bold text-sm tracking-wide shrink-0">
+              {testimonials[activeTestimonial].avatar}
+            </div>
+            <div className="text-left leading-tight">
+              <div className="font-bold text-white text-sm tracking-tight">
+                {testimonials[activeTestimonial].name}
+              </div>
+              <div className="text-slate-500 text-xs font-semibold mt-0.5">
+                {testimonials[activeTestimonial].role}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Slider Navigation Controls */}
+      <div className="flex items-center justify-center gap-6 mt-10">
+        
+        {/* Left Arrow Button */}
+        <button
+          onClick={() =>
+            setActiveTestimonial(
+              (p) => (p - 1 + testimonials.length) % testimonials.length,
+            )
+          }
+          className="w-9 h-9 rounded-xl border border-slate-900 bg-slate-950 text-slate-400 flex items-center justify-center hover:bg-slate-900 hover:text-white hover:border-slate-800 transition-all active:scale-95"
+          aria-label="Previous testimonial"
+        >
+          <ChevronLeft size={16} />
+        </button>
+
+        {/* Dynamic Pagination Indicators */}
+        <div className="flex items-center gap-2">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveTestimonial(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === activeTestimonial
+                  ? "w-6 bg-blue-500"
+                  : "w-1.5 bg-slate-800 hover:bg-slate-700"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
         </div>
-      </section>
 
-
-
+        {/* Right Arrow Button */}
+        <button
+          onClick={() =>
+            setActiveTestimonial((p) => (p + 1) % testimonials.length)
+          }
+          className="w-9 h-9 rounded-xl border border-slate-900 bg-slate-950 text-slate-400 flex items-center justify-center hover:bg-slate-900 hover:text-white hover:border-slate-800 transition-all active:scale-95"
+          aria-label="Next testimonial"
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
       {/* ════════════════════════════════════════════════════════
           FAQ
           ════════════════════════════════════════════════════════ */}
@@ -1126,7 +1038,6 @@ const Home = () => {
               <Link to="/contact" className="btn btn-primary">
                 Contact Admissions <ArrowRight size={16} />
               </Link>
-
             </motion.div>
 
             {/* Right: accordion */}
@@ -1166,7 +1077,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };
