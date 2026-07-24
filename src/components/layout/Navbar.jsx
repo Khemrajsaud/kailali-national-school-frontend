@@ -7,7 +7,6 @@ const academicItems = [
   { label: "Pre-Primary", to: "/academic/primary", desc: "Play-based early learning" },
   { label: "Primary School", to: "/academic/primary", desc: "Grades 1–5 foundation" },
   { label: "Secondary School", to: "/academic/secondary", desc: "Grades 6–10 excellence" },
-  { label: "+2 Program", to: "/academic/plus-two", desc: "Science, Management & Law" },
 ];
 
 const resourceItems = [
@@ -228,7 +227,7 @@ const Navbar = () => {
             </div>
 
             {/* Scrolling Dynamic Links Body */}
-            <div className="flex-1 overflow-y-auto px-3 py-4 flex flex-col gap-1 scrollbar-thin">
+            <div className="flex-1 overflow-y-auto px-3 py-4 flex flex-col gap-1">
               {navItems.map((item) => (
                 <Link
                   key={item.to}
@@ -242,7 +241,7 @@ const Navbar = () => {
               ))}
 
               {/* Mobile Accordion: Academics Dropdown */}
-              <div className="rounded-xl border border-slate-100 overflow-hidden mt-1">
+              <div className="rounded-xl border border-slate-100 overflow-hidden mt-1 shrink-0">
                 <button
                   type="button"
                   onClick={() => { setMobileAcademicsOpen(!mobileAcademicsOpen); setMobileResourcesOpen(false); }}
@@ -257,7 +256,7 @@ const Navbar = () => {
                 </button>
 
                 {mobileAcademicsOpen && (
-                  <div className="bg-slate-50/70 border-t border-slate-100 max-h-[200px] overflow-y-auto scrollbar-thin">
+                  <div className="bg-slate-50/70 border-t border-slate-100 max-h-60 overflow-y-auto">
                     {academicItems.map((item) => (
                       <Link
                         key={item.to}
@@ -278,7 +277,7 @@ const Navbar = () => {
               </div>
 
               {/* Mobile Accordion: Resources Dropdown */}
-              <div className="rounded-xl border border-slate-100 overflow-hidden mt-1">
+              <div className="rounded-xl border border-slate-100 overflow-hidden mt-1 shrink-0">
                 <button
                   type="button"
                   onClick={() => { setMobileResourcesOpen(!mobileResourcesOpen); setMobileAcademicsOpen(false); }}
@@ -293,7 +292,7 @@ const Navbar = () => {
                 </button>
 
                 {mobileResourcesOpen && (
-                  <div className="bg-slate-50/70 border-t border-slate-100 max-h-[200px] overflow-y-auto scrollbar-thin">
+                  <div className="bg-slate-50/70 border-t border-slate-100 max-h-60 overflow-y-auto">
                     {resourceItems.map((item) => (
                       <Link
                         key={item.to}

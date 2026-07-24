@@ -8,7 +8,6 @@ import Admission from "../../pages/Admission";
 import Academics from "../../pages/Academics";
 import PrimaryProgram from "../../pages/PrimaryProgram";
 import SecondaryProgram from "../../pages/SecondaryProgram";
-import PlusTwoProgram from "../../pages/PlusTwoProgram";
 import Contact from "../../pages/Contact";
 import Map from "../../pages/Map";
 import Facilities from "../../pages/Facilities";
@@ -43,7 +42,6 @@ const AppRoutes = () => {
           <Route path="/academic" element={<AnimatedPage><Academics /></AnimatedPage>} />
           <Route path="/academic/primary" element={<AnimatedPage><PrimaryProgram /></AnimatedPage>} />
           <Route path="/academic/secondary" element={<AnimatedPage><SecondaryProgram /></AnimatedPage>} />
-          <Route path="/academic/plus-two" element={<AnimatedPage><PlusTwoProgram /></AnimatedPage>} />
           <Route path="/contact" element={<AnimatedPage><Contact /></AnimatedPage>} />
           <Route path="/map" element={<AnimatedPage><Map /></AnimatedPage>} />
           <Route path="/facilities" element={<AnimatedPage><Facilities /></AnimatedPage>} />
