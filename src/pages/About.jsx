@@ -47,24 +47,14 @@ const About = () => {
       description: "Graduated our first batch of Secondary Education Exam (SEE) students with 100% board success.",
       icon: <Award size={16} />,
     },
-    {
-      year: "2015 AD",
-      title: "+2 Higher Secondary Stream",
-      description: "Introduced High School (+2) streams in Science and Management, providing higher education opportunities locally.",
-      icon: <GraduationCap size={16} />,
-    },
+   
     {
       year: "2020 AD",
       title: "Digital Smart Classrooms",
       description: "Transitioned to smart class technology, upgrading laboratories and computer centers for tech-enabled learning.",
       icon: <Layers size={16} />,
     },
-    {
-      year: "2023 AD",
-      title: "Addition of Law Stream",
-      description: "Expanded academic programs to include the Law stream under NEB, enabling students to explore legal education.",
-      icon: <BookOpen size={16} />,
-    },
+    
   ];
 
   return (

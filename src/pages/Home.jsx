@@ -262,14 +262,7 @@ const Home = () => {
       to: "/academic/secondary",
       color: "#2563EB",
     },
-    {
-      level: "+2 Program",
-      tag: "Grades 11–12",
-      img: plusTwo,
-      desc: "Specialized Science, Management & Law streams designed to prepare students for higher education.",
-      to: "/academic/plus-two",
-      color: "#10B981",
-    },
+   
   ];
 
   const facilities = [
@@ -505,7 +498,7 @@ const Home = () => {
           className="mb-14"
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {programs.map((prog, i) => (
             <motion.article
               key={prog.level}
@@ -591,7 +584,7 @@ const Home = () => {
         </div>
         
         <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-3 mb-6 leading-tight">
-          A Message of <span className="text-blue-600">Inspiration</span>
+          A Message from <span className="text-blue-600">Principle</span>
         </h2>
 
         {/* Clean Modern Quote Layout */}
@@ -627,7 +620,7 @@ const Home = () => {
       <section className="section-wrapper">
         <SectionHeader
           badge="Campus Facilities"
-          title="World Class Facilities for Every Learner"
+          title="Best Class Facilities for Every Learner"
           className="mb-14"
         />
 
@@ -792,7 +785,7 @@ const Home = () => {
                 News & <span style={{ color: "var(--blue)" }}>Articles</span>
               </>
             }
-            subtitle="Stay informed with the latest school news, announcements, and stories from our community."
+            subtitle=" informed with the latest school news, announcements, and stories from our community."
             center={false}
           />
           <Link to="/resources/news" className="btn btn-secondary shrink-0">

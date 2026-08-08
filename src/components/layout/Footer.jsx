@@ -194,12 +194,12 @@ const Footer = () => {
         <div className="h-px w-full bg-slate-900 mb-8" />
 
         {/* Bottom Rights & Attribution Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between lg:mr-[100px] gap-4">
           <p className="text-xs font-semibold text-slate-500">
             &copy; {year} Kailali National School. All rights reserved.
           </p>
           <p className="text-xs font-semibold text-slate-500 flex items-center gap-1">
-            Designed with <Heart size={12} className="text-rose-500 fill-rose-500 animate-pulse mx-0.5" /> by{" "}
+            Designed with  by{" "}
             <a
               href="https://www.niijotech.com/"
               target="_blank"

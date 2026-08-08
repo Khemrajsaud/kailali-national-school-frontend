@@ -975,12 +975,9 @@ html, body {
 }
 
 /* ── Ensure images and media don't overflow ──────────────── */
-img, video, iframe, embed, object {
+img, video,  object {
   max-width: 100%;
   height: auto;
 }
 
-/* Override for explicitly sized iframes (maps, embeds) */
-iframe {
-  height: unset;
-}
+

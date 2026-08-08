@@ -44,8 +44,14 @@ const requirements = [
 ];
 
 const programCards = [
+
+   {
+    title: "Pre-Primary ",
+    description: "Nurturing early childhood years through play-based activities, Montessori teaching, and basic literacy.",
+    iconColor: "text-blue-600 bg-blue-50 border-blue-100",
+  },
   {
-    title: "Pre-Primary / Primary",
+    title: "Pre-Primary ",
     description: "Nurturing early childhood years through play-based activities, Montessori teaching, and basic literacy.",
     iconColor: "text-blue-600 bg-blue-50 border-blue-100",
   },
@@ -54,11 +60,7 @@ const programCards = [
     description: "Empowering conceptual clarity in core subjects, practical laboratory work, SEE prep, and physical growth.",
     iconColor: "text-emerald-600 bg-emerald-50 border-emerald-100",
   },
-  {
-    title: "Plus Two Program",
-    description: "Preparing students for global education and future career tracks with dedicated higher secondary faculty.",
-    iconColor: "text-blue-600 bg-blue-50 border-blue-100",
-  },
+  
 ];
 
 const fadeInUp = {
@@ -256,7 +258,7 @@ const Admission = () => {
                 Contact Office <ArrowRight size={13} />
               </Link>
               <Link to="/about" className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-bold text-xs bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
-                About Campus
+                About Schoool
               </Link>
             </div>
           </motion.div>
